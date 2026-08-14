@@ -1,0 +1,56 @@
+{
+  "id": "misconception-brain",
+  "name": "The 10% brain myth, debunked",
+  "target_seconds": 32,
+  "description": "Everyone believes you only use 10% of your brain. That's a myth with a 90-year-old motivational origin and zero scientific basis. The evidence: brain scans show all regions active, and your brain burns 20% of your energy for just 2% of your weight.",
+  "style": {
+    "music": "dark_mystery",
+    "energy": 0.55,
+    "theme": "flat-motion-graphics",
+    "theme_config": {
+      "accentColor": "#38BDF8",
+      "primaryColor": "#7C3AED",
+      "backgroundColor": "#0F172A",
+      "surfaceColor": "#1E293B",
+      "textColor": "#F8FAFC",
+      "mutedTextColor": "#94A3B8",
+      "chartColors": ["#38BDF8", "#EF4444", "#10B981", "#F59E0B", "#7C3AED", "#EC4899"]
+    }
+  },
+  "hook_variants": [
+    {"format": "contrarian", "template": "The 10% brain myth. Believed by millions. Completely fake.", "news_slot": false},
+    {"format": "stat", "template": "You use 10% of your brain? Nope. Every bit of it works.", "news_slot": false},
+    {"format": "direct-gap", "template": "The most famous brain fact is a 90-year-old lie.", "news_slot": false}
+  ],
+  "body_variants": [
+    {
+      "name": "myth-vs-reality",
+      "sections": [
+        {"visual": {"type": "stat_card", "stat": "100%", "subtitle": "of your brain is active, every single day"}, "text": "You use one hundred percent of your brain. Every region has a job."},
+        {"visual": {"type": "text_card"}, "text": "Damage anywhere in the brain changes who you are. There is no silent spare part."},
+        {"visual": {"type": "stat_card", "stat": "20%", "subtitle": "of your energy, for 2% of your weight"}, "text": "Two percent of your weight. Twenty percent of your energy."},
+        {"visual": {"type": "timeline", "title": "Where the myth came from", "milestones": [
+          {"label": "1890s", "sub": "William James' idea"},
+          {"label": "1929", "sub": "World Almanac"},
+          {"label": "1936", "sub": "Self-help book"},
+          {"label": "Today", "sub": "Movies repeat it"}
+        ]}, "text": "The myth started in the 1930s. Movies kept it alive."},
+        {"visual": {"type": "CTA"}, "text": "No hidden powers. You're already using all of it. Follow for more myths that die fast."}
+      ]
+    }
+  ],
+  "facts": [
+    {"claim": "The ten-percent-of-the-brain myth states humans use only a small fraction of their brain; it has no scientific basis", "source_url": "https://en.wikipedia.org/wiki/Ten-percent-of-the-brain_myth", "source_name": "Wikipedia — Ten-percent-of-the-brain myth"},
+    {"claim": "The myth likely originated from the 'reserve energy' theories of William James in the 1890s and was popularized in the 1920s-1930s self-help era, including the 1929 World Almanac and a 1936 foreword to Dale Carnegie's book", "source_url": "https://en.wikipedia.org/wiki/Ten-percent-of-the-brain_myth", "source_name": "Wikipedia — Ten-percent-of-the-brain myth"},
+    {"claim": "Brain imaging (PET, fMRI) shows all parts of the brain are active almost all the time, including during sleep", "source_url": "https://en.wikipedia.org/wiki/Ten-percent-of-the-brain_myth", "source_name": "Wikipedia — Ten-percent-of-the-brain myth"},
+    {"claim": "The brain uses up to 20% of the body's energy while making up only about 2% of body weight", "source_url": "https://en.wikipedia.org/wiki/Ten-percent-of-the-brain_myth", "source_name": "Wikipedia — Ten-percent-of-the-brain myth"},
+    {"claim": "There is almost no brain area that can be damaged without loss of abilities", "source_url": "https://en.wikipedia.org/wiki/Ten-percent-of-the-brain_myth", "source_name": "Wikipedia — Ten-percent-of-the-brain myth"},
+    {"claim": "The myth has been misattributed to Albert Einstein, with no documented quote", "source_url": "https://en.wikipedia.org/wiki/Ten-percent-of-the-brain_myth", "source_name": "Wikipedia — Ten-percent-of-the-brain myth"}
+  ],
+  "titles": [
+    "The 10% brain myth, debunked in 30 seconds",
+    "You use 100% of your brain. Here's the proof.",
+    "The '10% of your brain' lie, explained"
+  ],
+  "hashtags": ["#brain", "#myths", "#science", "#debunked", "#mindblown"]
+}

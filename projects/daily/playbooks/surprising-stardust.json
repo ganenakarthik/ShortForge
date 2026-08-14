@@ -1,0 +1,57 @@
+{
+  "id": "surprising-stardust",
+  "name": "You are made of stardust",
+  "target_seconds": 32,
+  "description": "Hydrogen was born in the Big Bang. Every heavier element in your body was forged inside a star, and the heaviest ones in supernova explosions. Your atoms are 4.6-billion-year-old cosmic material, and you breathe star-forged carbon with every breath.",
+  "style": {
+    "music": "wonder",
+    "energy": 0.6,
+    "theme": "flat-motion-graphics",
+    "theme_config": {
+      "accentColor": "#EAB308",
+      "primaryColor": "#6366F1",
+      "backgroundColor": "#0B1026",
+      "surfaceColor": "#151B3A",
+      "textColor": "#F8FAFC",
+      "mutedTextColor": "#93A0C8",
+      "chartColors": ["#EAB308", "#6366F1", "#38BDF8", "#EC4899", "#10B981", "#F59E0B"]
+    }
+  },
+  "hook_variants": [
+    {"format": "direct-gap", "template": "You are made of stardust. Literally. Here's the chain.", "news_slot": false},
+    {"format": "stat", "template": "The carbon in your hands was forged in a dying star.", "news_slot": false},
+    {"format": "question", "template": "Where did the carbon in your body come from? Hint: not Earth.", "news_slot": false}
+  ],
+  "body_variants": [
+    {
+      "name": "chain-to-you",
+      "sections": [
+        {"visual": {"type": "text_card"}, "text": "The Big Bang made hydrogen and helium. That's it. Nothing else."},
+        {"visual": {"type": "stat_card", "stat": "65%", "subtitle": "of your body is oxygen — forged in stars"}, "text": "Then stars fused them into carbon and oxygen. The stuff your body is built from."},
+        {"visual": {"type": "timeline", "title": "The chain to you", "milestones": [
+          {"label": "Big Bang", "sub": "hydrogen born"},
+          {"label": "Stars", "sub": "fuse carbon, oxygen"},
+          {"label": "Supernovae", "sub": "forge the heaviest"},
+          {"label": "You", "sub": "stardust assembled"}
+        ]}, "text": "Heavier elements need supernovae. Exploding stars."},
+        {"visual": {"type": "stat_card", "stat": "4.6B", "subtitle": "years ago — your atoms arrived"}, "text": "A cloud of that stardust formed our solar system. Four point six billion years ago."},
+        {"visual": {"type": "callout", "title": "the twist", "callout_type": "info", "body": "every breath pulls in carbon forged in stars billions of years before Earth existed"}, "text": "Every breath pulls in carbon forged inside a star."},
+        {"visual": {"type": "CTA"}, "text": "You're not just in the universe. The universe is in you. Follow."}
+      ]
+    }
+  ],
+  "facts": [
+    {"claim": "Big Bang nucleosynthesis produced hydrogen, helium and trace lithium; essentially all heavier elements are made later", "source_url": "https://en.wikipedia.org/wiki/Stellar_nucleosynthesis", "source_name": "Wikipedia — Stellar nucleosynthesis"},
+    {"claim": "Stars create heavier elements (up to iron) by nuclear fusion in their cores", "source_url": "https://en.wikipedia.org/wiki/Stellar_nucleosynthesis", "source_name": "Wikipedia — Stellar nucleosynthesis"},
+    {"claim": "Elements heavier than iron are formed by neutron capture processes (s-process, r-process) including in supernovae", "source_url": "https://en.wikipedia.org/wiki/Stellar_nucleosynthesis", "source_name": "Wikipedia — Stellar nucleosynthesis"},
+    {"claim": "Oxygen is about 65% of human body mass", "source_url": "https://en.wikipedia.org/wiki/Composition_of_the_human_body", "source_name": "Wikipedia — Composition of the human body"},
+    {"claim": "The Solar System formed about 4.6 billion years ago from the gravitational collapse of a giant molecular cloud", "source_url": "https://en.wikipedia.org/wiki/Formation_and_evolution_of_the_Solar_System", "source_name": "Wikipedia — Formation and evolution of the Solar System"},
+    {"claim": "The quote 'we are made of star-stuff' was popularized by Carl Sagan", "source_url": "https://en.wikipedia.org/wiki/Cosmos_(Sagan_book)", "source_name": "Wikipedia — Cosmos (Sagan book)"}
+  ],
+  "titles": [
+    "You are made of stardust. Literally.",
+    "The 4.6-billion-year chain inside your body",
+    "Every atom in you was forged in a star"
+  ],
+  "hashtags": ["#stardust", "#space", "#science", "#cosmos", "#mindblown"]
+}

@@ -1,0 +1,30 @@
+{
+  "id": "eiffel-tower-grows",
+  "name": "The Eiffel Tower grows in summer",
+  "target_seconds": 28,
+  "hook_variants": [
+    {"format": "stat", "template": "A building that grows taller every summer. By about 15 centimeters.", "news_slot": false},
+    {"format": "question", "template": "What structure grows 15 centimeters taller when it gets hot?", "news_slot": false},
+    {"format": "direct-gap", "template": "The Eiffel Tower is taller in July than in January.", "news_slot": false}
+  ],
+  "body_variants": [
+    {
+      "name": "thermal-expansion",
+      "sections": [
+        {"visual": "text_card", "text": "Iron expands with heat. The Eiffel Tower's iron frame grows about 15 centimeters in hot weather."},
+        {"visual": "stat_card", "text": "That's up to 15 cm taller than on a cold winter day.", "stat": "~15cm", "subtitle": "height gain in summer heat"},
+        {"visual": "comparison", "text": "It also leans up to 7 centimeters away from the sun as the heated side expands more.", "title": "it tilts too", "left": "Winter", "lvalue": "300.2 m", "right": "Summer", "rvalue": "300.35 m"},
+        {"visual": "callout", "text": "Engineers leave extra room in the joints so the metal isn't crushed by its own expansion.", "type": "info", "title": "the fix", "body": "expansion gaps built in"},
+        {"visual": "progress_bar", "text": "The main structure is about 300 meters tall — the daily size change is invisible to the eye.", "title": "Height", "label": "~300 m", "progress": 1.0},
+        {"visual": "CTA", "text": "Follow for more facts that make landmarks even cooler."}
+      ]
+    }
+  ],
+  "facts": [
+    {"claim": "The Eiffel Tower can expand up to about 15 cm in height due to thermal expansion", "source_url": "https://en.wikipedia.org/wiki/Eiffel_Tower", "source_name": "Wikipedia — Eiffel Tower"},
+    {"claim": "The tower leans up to 7 cm away from the sun as the sunny side expands", "source_url": "https://en.wikipedia.org/wiki/Eiffel_Tower", "source_name": "Wikipedia — Eiffel Tower"},
+    {"claim": "The tower is made of wrought iron and stands about 300 meters tall", "source_url": "https://en.wikipedia.org/wiki/Eiffel_Tower", "source_name": "Wikipedia — Eiffel Tower"}
+  ],
+  "titles": ["The Eiffel Tower grows every summer", "A building that gets taller when it's hot", "The Eiffel Tower's summer growth spurt"],
+  "hashtags": ["#facts", "#paris", "#science", "#engineering", "#techshorts"]
+}

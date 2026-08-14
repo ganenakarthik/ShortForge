@@ -1,0 +1,30 @@
+{
+  "id": "lightning-hotter-than-sun",
+  "name": "Lightning is 5x hotter than the Sun's surface",
+  "target_seconds": 28,
+  "hook_variants": [
+    {"format": "stat", "template": "Lightning is five times hotter than the surface of the Sun.", "news_slot": false},
+    {"format": "question", "template": "What's hotter: lightning or the Sun's surface?", "news_slot": false},
+    {"format": "contrarian", "template": "The sky can deliver something hotter than the Sun.", "news_slot": false}
+  ],
+  "body_variants": [
+    {
+      "name": "lightning-heat",
+      "sections": [
+        {"visual": "text_card", "text": "A lightning bolt heats the air around it to about 30,000 kelvin. The Sun's surface: about 5,500."},
+        {"visual": "stat_card", "text": "That's roughly five times hotter — hot enough to turn sand into glass.", "stat": "30,000K", "subtitle": "vs 5,500K on the Sun's surface"},
+        {"visual": "callout", "text": "The energy comes from static charge separating in storm clouds, building up to 300 million volts.", "type": "info", "title": "the mechanism", "body": "static charge, up to 300 million volts"},
+        {"visual": "progress_bar", "text": "A strike zips along at up to one third the speed of light toward the ground.", "title": "speed", "label": "up to ~100,000 km/s", "progress": 0.35},
+        {"visual": "comparison", "text": "Yet a typical bolt lasts about 30 microseconds one way, and 0.2 seconds the other.", "title": "duration", "left": "First strike", "lvalue": "30 µs", "right": "Return stroke", "rvalue": "0.2 s"},
+        {"visual": "CTA", "text": "Follow for more facts hotter than the Sun."}
+      ]
+    }
+  ],
+  "facts": [
+    {"claim": "Lightning heats the air to about 30,000 kelvin, roughly five times the Sun's surface temperature", "source_url": "https://en.wikipedia.org/wiki/Lightning", "source_name": "Wikipedia — Lightning"},
+    {"claim": "The Sun's visible surface (photosphere) is about 5,500 °C", "source_url": "https://en.wikipedia.org/wiki/Sun", "source_name": "Wikipedia — Sun"},
+    {"claim": "Lightning strikes reach up to one-third the speed of light", "source_url": "https://en.wikipedia.org/wiki/Lightning", "source_name": "Wikipedia — Lightning"}
+  ],
+  "titles": ["Lightning is hotter than the Sun's surface", "The 30,000K sky bolt", "When the sky is hotter than a star"],
+  "hashtags": ["#weather", "#science", "#facts", "#lightning", "#techshorts"]
+}

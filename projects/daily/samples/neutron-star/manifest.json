@@ -1,0 +1,268 @@
+{
+  "id": "neutron-star-teaspoon",
+  "title": "One teaspoon. A billion tons.",
+  "type": "sample-1",
+  "approved_spec": "V2.1 A-F (user-approved 2026-08-14)",
+  "target_seconds": 34,
+  "hook": "One teaspoon of neutron-star matter could weigh around a billion tons.",
+  "teach_sequence": [
+    "ONE TEASPOON",
+    "NEUTRON STAR",
+    "MASS OF STAR",
+    "COLLAPSE",
+    "CITY-SIZE OBJECT",
+    "EXTREME DENSITY",
+    "TEASPOON PAYOFF"
+  ],
+  "claims": [
+    {
+      "claim_id": "c1",
+      "claim": "One teaspoon of neutron-star matter could weigh around a billion tons on Earth.",
+      "tier": 1,
+      "source": "NASA Goddard Space Flight Center (NICER mission press release)",
+      "url": "https://www.nasa.gov/centers-and-facilities/goddard/new-nasa-mission-to-study-mysterious-neutron-stars-aid-in-deep-space-navigation/",
+      "exact_wording": "\"On Earth, one teaspoon of neutron star matter would weigh a billion tons.\"",
+      "assumption": "Interior density near nuclear density (~10^17 kg/m3); exact figure depends on where in the star the material is scooped (crust vs core; deep-interior estimates run to several billion tons).",
+      "confidence": "HIGH for order of magnitude (10^9 t); exact number density-dependent -> script uses 'around/could'",
+      "used_in_script": true,
+      "wording_in_script": "could weigh around a billion tons"
+    },
+    {
+      "claim_id": "c2",
+      "claim": "A sugar cube of neutron star material would weigh about 1 trillion kilograms (1 billion tons).",
+      "tier": 1,
+      "source": "NASA Imagine the Universe",
+      "url": "https://imagine.gsfc.nasa.gov/science/objects/neutron_stars1.html",
+      "exact_wording": "\"One sugar cube of neutron star material would weigh about 1 trillion kilograms (or 1 billion tons) on Earth - about as much as a mountain.\"",
+      "assumption": "Same nuclear density.",
+      "confidence": "HIGH",
+      "used_in_script": false
+    },
+    {
+      "claim_id": "c3",
+      "claim": "A tablespoon of neutron star weighs more than 1 billion tons.",
+      "tier": 2,
+      "source": "Astronomy.com (space.com network)",
+      "url": "https://www.astronomy.com/science/what-would-happen-if-tablespoonful-neutron-star-was-brought-to-earth/",
+      "exact_wording": "\"A tablespoon of neutron star weighs more than 1 billion tons (900 billion kg).\"",
+      "assumption": "Same nuclear density.",
+      "confidence": "HIGH (corroborates c1)",
+      "used_in_script": false
+    },
+    {
+      "claim_id": "c4",
+      "claim": "A neutron star begins its life as a star between about 7 and 20 times the mass of our Sun.",
+      "tier": 1,
+      "source": "NASA Goddard (NICER press release)",
+      "url": "https://www.nasa.gov/centers-and-facilities/goddard/new-nasa-mission-to-study-mysterious-neutron-stars-aid-in-deep-space-navigation/",
+      "exact_wording": "\"A neutron star begins its life as a star between about seven and 20 times the mass of our sun.\"",
+      "assumption": "Progenitor mass window for core-collapse supernovae.",
+      "confidence": "HIGH",
+      "used_in_script": true,
+      "wording_in_script": "up to twenty times the mass of our Sun"
+    },
+    {
+      "claim_id": "c5",
+      "claim": "When the fuel runs out, gravity crushes the core in under a second.",
+      "tier": 2,
+      "source": "NMSU Astronomy lecture; expert answer with free-fall timescale 0.1-1.0 s",
+      "url": "http://astronomy.nmsu.edu/geas/lectures/lecture25/slide02.html",
+      "exact_wording": "\"In less than a tenth of a second, the core of the star compresses to a radius of 20 kilometers and its density rises to that of the atomic nucleus.\" (free-fall time ~0.1-1.0 s per physics.stackexchange.com/questions/110460)",
+      "assumption": "Free-fall timescale at iron-core density.",
+      "confidence": "HIGH for 'under a second'",
+      "used_in_script": true,
+      "wording_in_script": "gravity crushed the core in under a second"
+    },
+    {
+      "claim_id": "c6",
+      "claim": "The star explodes as a core-collapse supernova; the core keeps collapsing into a neutron star.",
+      "tier": 2,
+      "source": "Space.com (What is a supernova?)",
+      "url": "https://www.space.com/6638-supernova.html",
+      "exact_wording": "\"Eventually, the implosion bounces back off the core, expelling the stellar material into space, forming the supernova. What's left is an ultra-dense object called a neutron star.\"",
+      "assumption": "Standard Type II core-collapse model.",
+      "confidence": "HIGH",
+      "used_in_script": true,
+      "wording_in_script": "The star exploded as a supernova - but the core kept collapsing"
+    },
+    {
+      "claim_id": "c7",
+      "claim": "Up to twice the Sun's mass squeezed into a sphere 12 miles (20 km) across, the size of a city.",
+      "tier": 1,
+      "source": "NASA Goddard (NICER press release); Space.com",
+      "url": "https://www.nasa.gov/centers-and-facilities/goddard/new-nasa-mission-to-study-mysterious-neutron-stars-aid-in-deep-space-navigation/",
+      "exact_wording": "\"What remains is an ultra-dense sphere only about 12 miles (20 kilometers) across, the size of a city, but with up to twice the mass of our sun squeezed inside.\"",
+      "assumption": "Standard model.",
+      "confidence": "HIGH",
+      "used_in_script": true,
+      "wording_in_script": "two Suns' worth of mass packed into a sphere the size of a city"
+    },
+    {
+      "claim_id": "c8",
+      "claim": "Electrons and protons are crushed together, creating a sea of neutrons; neutron degeneracy pressure stops the collapse.",
+      "tier": 2,
+      "source": "Space.com; NASA Imagine the Universe",
+      "url": "https://www.space.com/22180-neutron-stars.html",
+      "exact_wording": "Space.com: \"the negatively-charged electrons and positively-charged protons that comprise the iron nuclei in this stellar core are crushed together, creating a sea of uncharged, or neutral neutrons\". NASA Imagine: \"newly-created neutrons can stop the collapse, leaving behind a neutron star.\"",
+      "assumption": "Standard model (neutron degeneracy pressure).",
+      "confidence": "HIGH",
+      "used_in_script": true,
+      "wording_in_script": "protons and electrons are crushed into a sea of neutrons"
+    },
+    {
+      "claim_id": "c9",
+      "claim": "Deep-interior teaspoon estimates run higher (up to ~4-6 billion tons).",
+      "tier": 3,
+      "source": "Secondary websites (e.g. sealycvb.org) - DISCOVERY ONLY, not evidence",
+      "url": null,
+      "exact_wording": "Varies by source; '4 billion tonnes' quoted for deep interior.",
+      "assumption": "Density at the star's core rather than crust.",
+      "confidence": "LOW - noted only inside c1's assumption column",
+      "used_in_script": false
+    }
+  ],
+  "source_hierarchy_rule": "Tier 1: NASA/ESA/scientific institutions/peer-reviewed. Tier 2: reputable science publications. Tier 3: discovery/corroboration only, never primary evidence.",
+  "script": [
+    {
+      "id": "n1",
+      "text": "One teaspoon of neutron-star matter could weigh around a billion tons."
+    },
+    {
+      "id": "n2",
+      "text": "It comes from a neutron star - the dead core of a giant star."
+    },
+    {
+      "id": "n3",
+      "text": "A star that burned up to twenty times the mass of our Sun."
+    },
+    {
+      "id": "n4",
+      "text": "When the fuel ran out, gravity crushed the core in under a second."
+    },
+    {
+      "id": "n5",
+      "text": "The star exploded as a supernova - but the core kept collapsing."
+    },
+    {
+      "id": "n6",
+      "text": "Until two Suns' worth of mass packed into a sphere the size of a city."
+    },
+    {
+      "id": "n7",
+      "text": "So dense, protons and electrons are crushed into a sea of neutrons."
+    },
+    {
+      "id": "n8",
+      "text": "Scoop a teaspoon of that? Around a billion tons."
+    }
+  ],
+  "visual_sources": [
+    {
+      "id": "vs1",
+      "asset": "spoon_full.jpg",
+      "subject": "Teaspoon splash macro photo",
+      "representation": "STOCK",
+      "source": "Wikimedia Commons",
+      "title": "File:SplashArt Teaspoon (8134896559).jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:SplashArt_Teaspoon_(8134896559).jpg",
+      "license": "CC BY 2.0",
+      "artist": "Flickr user (formulanone)",
+      "attribution_required": true,
+      "used_in": ["shot-1a", "shot-1b"]
+    },
+    {
+      "id": "vs2",
+      "asset": "pulsar_art.png",
+      "subject": "NASA artist's impression of a pulsar (spinning neutron star with beams)",
+      "representation": "ILLUSTRATION",
+      "source": "Wikimedia Commons",
+      "title": "File:Artist's Impression of Pulsar Wind from a Neutron Star (2018-43-4232).png",
+      "url": "https://commons.wikimedia.org/wiki/File:Artist%27s_Impression_of_Pulsar_Wind_from_a_Neutron_Star_(2018-43-4232).png",
+      "license": "Public domain",
+      "artist": "NASA, ESA, N. Tr'Ehnl (Penn State)",
+      "attribution_required": false,
+      "on_screen_label": "artist's impression",
+      "used_in": ["shot-2"]
+    },
+    {
+      "id": "vs3",
+      "asset": "carina_nebula.jpg",
+      "subject": "Hubble observation: star-forming 'landscape' in the Carina Nebula (home of the massive star Eta Carinae)",
+      "representation": "REAL",
+      "source": "Wikimedia Commons (ESA/Hubble)",
+      "title": "File:Hubble captures spectacular \"landscape\" in the Carina Nebula (heic1007e).jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Hubble_captures_spectacular_%E2%80%9Clandscape%E2%80%9D_in_the_Carina_Nebula_(heic1007e).jpg",
+      "license": "CC BY 4.0",
+      "artist": "NASA, ESA, M. Livio and the Hubble 20th Anniversary Team (STScI)",
+      "attribution_required": true,
+      "used_in": ["shot-3"]
+    },
+    {
+      "id": "vs4",
+      "asset": "collapse_*.png",
+      "subject": "Built schematic of a star collapsing to a 20 km sphere (3 frames, crossfade)",
+      "representation": "SIMULATION",
+      "source": "Built locally (Pillow)",
+      "license": "Generated",
+      "on_screen_label": "simulation",
+      "used_in": ["shot-4"]
+    },
+    {
+      "id": "vs5",
+      "asset": "crab_timelapse.mp4",
+      "subject": "NASA telescopic timelapse: the Crab Nebula (supernova remnant of SN 1054) expanding",
+      "representation": "REAL",
+      "source": "Wikimedia Commons",
+      "title": "File:Timelapse crab comp to blue.webm",
+      "url": "https://commons.wikimedia.org/wiki/File:Timelapse_crab_comp_to_blue.webm",
+      "license": "Public domain",
+      "artist": "NASA",
+      "attribution_required": false,
+      "used_in": ["shot-5"]
+    },
+    {
+      "id": "vs6",
+      "asset": "manhattan_night.jpg",
+      "subject": "Photograph of the real city (Manhattan skyline at night)",
+      "representation": "STOCK",
+      "source": "Wikimedia Commons",
+      "title": "File:Lower Manhattan from Jersey City September 2020 panorama.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Lower_Manhattan_from_Jersey_City_September_2020_panorama.jpg",
+      "license": "CC BY-SA 4.0",
+      "artist": "Wikimedia Commons contributor",
+      "attribution_required": true,
+      "used_in": ["shot-6a"]
+    },
+    {
+      "id": "vs7",
+      "asset": "sun_city_comparison.png",
+      "subject": "Built comparison: two-Sun sphere shrinking to a city-size sphere (not to scale)",
+      "representation": "ILLUSTRATION",
+      "source": "Built locally (Pillow)",
+      "license": "Generated",
+      "on_screen_label": "illustration - not to scale",
+      "used_in": ["shot-6b"]
+    },
+    {
+      "id": "vs8",
+      "asset": "neutron_sea_*.png",
+      "subject": "Built schematic: electrons+protons crushed into a sea of neutrons (2 frames, crossfade)",
+      "representation": "SIMULATION",
+      "source": "Built locally (Pillow)",
+      "license": "Generated",
+      "on_screen_label": "simulation",
+      "used_in": ["shot-7"]
+    },
+    {
+      "id": "vs9",
+      "asset": "spoon_crop.jpg",
+      "subject": "Same teaspoon photo, reframed (tight crop on the bowl) for the payoff",
+      "representation": "STOCK",
+      "source": "Derived from vs1 (intentional reuse: reframed + narrative return)",
+      "license": "CC BY 2.0",
+      "attribution_required": true,
+      "used_in": ["shot-8"]
+    }
+  ],
+  "attribution_note": "Description/credits file must carry: NASA/ESA/Hubble public-domain images (pulsar art, Crab Nebula timelapse, Carina Nebula CC BY 4.0), teaspoon photo (Flickr, CC BY 2.0), Manhattan panorama (CC BY-SA 4.0). No Pexels used in this sample (no API key present in .env); Commons public-domain/CC fallback per approved plan F (bad/absent stock -> fallback)."
+}

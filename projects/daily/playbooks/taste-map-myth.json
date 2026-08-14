@@ -1,0 +1,30 @@
+{
+  "id": "taste-map-myth",
+  "name": "The tongue taste map is a myth",
+  "target_seconds": 28,
+  "hook_variants": [
+    {"format": "contrarian", "template": "The taste map you saw in school is a lie.", "news_slot": false},
+    {"format": "question", "template": "Are bitter taste buds really only at the back of your tongue?", "news_slot": false},
+    {"format": "direct-gap", "template": "That tongue diagram from biology class? Totally wrong.", "news_slot": false}
+  ],
+  "body_variants": [
+    {
+      "name": "taste-reality",
+      "sections": [
+        {"visual": "text_card", "text": "The 'sweet at the tip, bitter at the back' tongue map was debunked decades ago."},
+        {"visual": "callout", "text": "Every taste bud can sense all five basic tastes. They're spread across your whole tongue.", "type": "info", "title": "reality", "body": "all taste zones, all tastes"},
+        {"visual": "comparison", "text": "The myth came from a mistranslated 1901 German study.", "title": "the myth", "left": "Textbook", "lvalue": "sweet tip, bitter back", "right": "Reality", "rvalue": "uniform everywhere"},
+        {"visual": "stat_card", "text": "You have roughly 2,000 to 10,000 taste buds, replaced every week or two.", "stat": "2k-10k", "subtitle": "taste buds, refreshed ~every 2 weeks"},
+        {"visual": "text_card", "text": "So your tongue is one big equal-opportunity sensor. School was wrong."},
+        {"visual": "CTA", "text": "Follow for more myths crushed by science."}
+      ]
+    }
+  ],
+  "facts": [
+    {"claim": "The tongue map showing distinct regions for sweet, sour, salty and bitter is a common misconception and false", "source_url": "https://en.wikipedia.org/wiki/Tongue_map", "source_name": "Wikipedia — Tongue map"},
+    {"claim": "The myth originated from a mistranslation of a 1901 German paper by David Hänig", "source_url": "https://en.wikipedia.org/wiki/Tongue_map", "source_name": "Wikipedia — Tongue map"},
+    {"claim": "Humans have between 2,000 and 10,000 taste buds that are replaced every one to two weeks", "source_url": "https://en.wikipedia.org/wiki/Taste_bud", "source_name": "Wikipedia — Taste bud"}
+  ],
+  "titles": ["Your school's tongue map was wrong", "The tongue taste map myth, debunked", "Every taste bud does everything"],
+  "hashtags": ["#facts", "#science", "#mythbusting", "#body", "#techshorts"]
+}

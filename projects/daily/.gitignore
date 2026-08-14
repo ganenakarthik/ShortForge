@@ -1,0 +1,17 @@
+# Generated media — never commit (regenerable at production time)
+out/
+tmp/
+queue/
+__pycache__/
+
+# Secrets — never commit
+client_secret.json
+
+# Runtime-generated playbooks (rebuilt from live news each day)
+playbooks/news-*.json
+
+# Debug/scratch logs
+*.txt
+
+# Sample renders
+samples/**/out/

@@ -1,0 +1,170 @@
+{
+  "id": "how-llms-work",
+  "name": "How LLMs actually answer you",
+  "target_seconds": 27,
+  "hook_variants": [
+    {
+      "format": "contrarian",
+      "template": "ChatGPT doesn't think. It predicts the next word.",
+      "news_slot": false
+    },
+    {
+      "format": "direct-gap",
+      "template": "Everyone uses ChatGPT. Almost nobody knows what it actually does.",
+      "news_slot": false
+    },
+    {
+      "format": "news-bridge",
+      "template": "{news_title} Here's the engine behind it.",
+      "news_slot": true
+    }
+  ],
+  "body_variants": [
+    {
+      "name": "mechanism-terminal",
+      "sections": [
+        {
+          "visual": "text_card",
+          "text": "Every reply is just the most likely next word, repeated."
+        },
+        {
+          "visual": "terminal_scene",
+          "text": "Type a question. It picks the most likely next word. Then the next. That's the whole trick."
+        },
+        {
+          "visual": "stat_card",
+          "text": "That loop runs on 175 billion knobs, called parameters, stacked in 96 layers.",
+          "stat": "175B",
+          "subtitle": "parameters • 96 layers — GPT-3"
+        },
+        {
+          "visual": "bar_chart",
+          "text": "It learned from 300 billion tokens of text. Most of the internet, filtered.",
+          "title": "Training text: ~300B tokens",
+          "data": [
+            {
+              "label": "GPT-3",
+              "value": 300
+            }
+          ]
+        },
+        {
+          "visual": "callout",
+          "text": "Training it cost a huge amount of computing power.",
+          "type": "warning",
+          "title": "training cost",
+          "body": "3,640 petaflop/s-days of compute"
+        },
+        {
+          "visual": "progress_bar",
+          "text": "But it only sees two thousand tokens at once.",
+          "title": "What it sees at once",
+          "label": "2,048 tokens",
+          "progress": 0.02
+        },
+        {
+          "visual": "CTA",
+          "text": "So when it sounds confident, it's predicting, not reading. Follow for more."
+        }
+      ]
+    },
+    {
+      "name": "prediction-loop",
+      "sections": [
+        {
+          "visual": "text_card",
+          "text": "The whole product is a loop: guess the next word, then do it again."
+        },
+        {
+          "visual": "comparison",
+          "text": "Sounding smart is not the same as knowing things.",
+          "title": "same loop, two faces",
+          "left": "Fluency",
+          "lvalue": "reads like it knows",
+          "right": "Understanding",
+          "rvalue": "not needed at all"
+        },
+        {
+          "visual": "stat_card",
+          "text": "The guesser is enormous: 175 billion parameters.",
+          "stat": "175B",
+          "subtitle": "parameters • 96 layers — GPT-3"
+        },
+        {
+          "visual": "pie_chart",
+          "text": "Training menu: the internet. 82 percent web pages, no chat logs.",
+          "title": "Training mix (GPT-3)",
+          "data": [
+            {
+              "label": "Internet (Crawl + WebText2)",
+              "value": 82
+            },
+            {
+              "label": "Books + Wikipedia",
+              "value": 18
+            }
+          ]
+        },
+        {
+          "visual": "terminal_scene",
+          "text": "Ask it something. Every word is the most probable next one."
+        },
+        {
+          "visual": "progress_bar",
+          "text": "The catch: only two thousand tokens fit at once.",
+          "title": "Context window",
+          "label": "2,048 tokens",
+          "progress": 0.02
+        },
+        {
+          "visual": "CTA",
+          "text": "Next time it sounds sure, remember the trick. It's predicting. Follow."
+        }
+      ]
+    }
+  ],
+  "facts": [
+    {
+      "claim": "GPT-3 has 175 billion parameters in 96 transformer layers",
+      "source_url": "https://arxiv.org/abs/2005.14165",
+      "source_name": "GPT-3 paper (Brown et al., OpenAI)"
+    },
+    {
+      "claim": "GPT-3 trained on ~300B tokens from Common Crawl, WebText2, books, Wikipedia",
+      "source_url": "https://arxiv.org/abs/2005.14165",
+      "source_name": "GPT-3 paper (Brown et al., OpenAI)"
+    },
+    {
+      "claim": "LLMs generate text one token at a time by predicting the most probable next token",
+      "source_url": "https://aiwiki.ai/wiki/gpt-3",
+      "source_name": "AI Wiki — GPT-3"
+    },
+    {
+      "claim": "GPT-3 training compute ~3.14×10^23 FLOPs (~3,640 petaflop/s-days)",
+      "source_url": "https://arxiv.org/abs/2005.14165",
+      "source_name": "GPT-3 paper — compute appendix"
+    },
+    {
+      "claim": "GPT-3 context window is 2,048 tokens; modern models are 50-500x larger",
+      "source_url": "https://en.wikipedia.org/wiki/GPT-3",
+      "source_name": "Wikipedia — GPT-3"
+    },
+    {
+      "claim": "GPT-3 training data mix (~300B tokens): ~60% Common Crawl, ~22% WebText2, ~8%+8% books, ~3% Wikipedia",
+      "source_url": "https://arxiv.org/abs/2005.14165",
+      "source_name": "GPT-3 paper — Table 2.4 training dataset mix"
+    }
+  ],
+  "titles": [
+    "ChatGPT doesn't think — it predicts",
+    "The autocomplete that reads better than you",
+    "{news_short}: the engine behind it"
+  ],
+  "hashtags": [
+    "#ai",
+    "#chatgpt",
+    "#explained",
+    "#llm",
+    "#techshorts"
+  ]
+}

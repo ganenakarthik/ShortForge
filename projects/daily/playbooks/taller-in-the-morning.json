@@ -1,0 +1,30 @@
+{
+  "id": "taller-in-the-morning",
+  "name": "You're taller in the morning",
+  "target_seconds": 28,
+  "hook_variants": [
+    {"format": "direct-gap", "template": "You're taller right now than you'll be tonight. By almost 2 centimeters.", "news_slot": false},
+    {"format": "question", "template": "When are you at your tallest: morning or night?", "news_slot": false},
+    {"format": "stat", "template": "You lose up to 2 cm of height every single day.", "news_slot": false}
+  ],
+  "body_variants": [
+    {
+      "name": "spine-compression",
+      "sections": [
+        {"visual": "text_card", "text": "Your spine is 33 stacked bones with soft discs in between. Gravity squeezes them all day."},
+        {"visual": "stat_card", "text": "By evening, the discs lose fluid and you shrink by about 1 to 2 centimeters.", "stat": "1-2 cm", "subtitle": "lost by the end of the day"},
+        {"visual": "comparison", "text": "At night, lying flat removes the squeeze. The discs rehydrate and puff back up.", "title": "the cycle", "left": "Morning", "lvalue": "tallest", "right": "Night", "rvalue": "shorter by ~1-2 cm"},
+        {"visual": "callout", "text": "Astronauts get the reverse: without gravity, their spines stretch up to 3 percent taller.", "type": "info", "title": "space version", "body": "no gravity = growth spurt"},
+        {"visual": "progress_bar", "text": "Static? No — you're literally changing height in real time.", "title": "Daily height swing", "label": "~1-2 cm", "progress": 0.9},
+        {"visual": "CTA", "text": "Follow for more facts about the machine you live in."}
+      ]
+    }
+  ],
+  "facts": [
+    {"claim": "Intervertebral discs rehydrate overnight, making people taller in the morning and shorter by evening", "source_url": "https://en.wikipedia.org/wiki/Intervertebral_disc", "source_name": "Wikipedia — Intervertebral disc"},
+    {"claim": "The human spine consists of 33 vertebrae with discs between them", "source_url": "https://en.wikipedia.org/wiki/Vertebral_column", "source_name": "Wikipedia — Vertebral column"},
+    {"claim": "Astronauts can become several centimeters taller in microgravity due to spinal disc expansion", "source_url": "https://en.wikipedia.org/wiki/Spaceflight_effects_on_the_human_body", "source_name": "Wikipedia — Spaceflight effects on the human body"}
+  ],
+  "titles": ["You're taller in the morning", "Why you shrink 2 cm every day", "Gravity literally squeezes you shorter"],
+  "hashtags": ["#facts", "#body", "#science", "#space", "#techshorts"]
+}

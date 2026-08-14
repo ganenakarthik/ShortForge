@@ -1,0 +1,43 @@
+{
+  "id": "why-chips-matter",
+  "name": "How chips get so small",
+  "target_seconds": 30,
+  "hook_variants": [
+    {
+      "format": "question",
+      "template": "Your phone in your pocket? It holds 16 billion tiny switches.",
+      "news_slot": false
+    },
+    {
+      "format": "news-bridge",
+      "template": "{news_title} Behind it: silicon printed three nanometers wide.",
+      "news_slot": true
+    },
+    {
+      "format": "stat",
+      "template": "Sixteen billion transistors in one chip. That's modern silicon.",
+      "news_slot": false
+    }
+  ],
+  "body_variants": [
+    {
+      "name": "silicon-scale",
+      "sections": [
+        {"visual": "text_card", "text": "Behind every gadget sits a wafer of silicon, carved atom by atom."},
+        {"visual": "stat_card", "text": "A flagship chip packs 16 billion tiny switches.", "stat": "16B", "subtitle": "transistors \u2014 Apple M1"},
+        {"visual": "bar_chart", "text": "The parts printed on it shrank from 45 nanometers to just 3.", "title": "Chip feature size (nm)", "data": [{"label": "2007 era", "value": 45}, {"label": "Today (TSMC N3)", "value": 3}]},
+        {"visual": "terminal_scene", "text": "They print it by flashing ultraviolet light through one stencil, then another, hundreds of times."},
+        {"visual": "callout", "text": "One of those printing machines costs over a hundred million dollars.", "type": "warning", "title": "EUV lithography", "body": "over $150M per machine"},
+        {"visual": "CTA", "text": "Every chip you own went through this. Follow for more tech explainers."}
+      ]
+    }
+  ],
+  "facts": [
+    {"claim": "TSMC began mass production of 3nm (N3) chips in late 2022", "source_url": "https://en.wikipedia.org/wiki/3_nm_process", "source_name": "Wikipedia \u2014 3 nm process"},
+    {"claim": "Apple's M1 chip packs 16 billion transistors", "source_url": "https://en.wikipedia.org/wiki/Apple_M1", "source_name": "Wikipedia \u2014 Apple M1"},
+    {"claim": "45nm process was mainstream around 2007\u20132008", "source_url": "https://en.wikipedia.org/wiki/45_nm_process", "source_name": "Wikipedia \u2014 45 nm process"},
+    {"claim": "EUV lithography machines exceed US$150 million each", "source_url": "https://en.wikipedia.org/wiki/Extreme_ultraviolet_lithography", "source_name": "Wikipedia \u2014 Extreme ultraviolet lithography"}
+  ],
+  "titles": ["Why your phone needs billions of transistors", "The tiny machine inside every gadget", "{news_short}: the chip story"],
+  "hashtags": ["#chips", "#silicon", "#hardware", "#techshorts", "#science"]
+}

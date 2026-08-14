@@ -1,0 +1,43 @@
+{
+  "id": "how-rockets-get-to-space",
+  "name": "How rockets get to space",
+  "target_seconds": 30,
+  "hook_variants": [
+    {
+      "format": "question",
+      "template": "Getting to space isn't about going up. It's about going sideways.",
+      "news_slot": false
+    },
+    {
+      "format": "news-bridge",
+      "template": "{news_title} Here's the physics behind every launch.",
+      "news_slot": true
+    },
+    {
+      "format": "stat",
+      "template": "Twenty-eight thousand kilometers an hour. That's what 'orbiting' means.",
+      "news_slot": false
+    }
+  ],
+  "body_variants": [
+    {
+      "name": "orbit-physics",
+      "sections": [
+        {"visual": "text_card", "text": "Rocket science is simpler than it sounds. Throw mass backward, go forward."},
+        {"visual": "stat_card", "text": "The station circles 400 kilometers up, at 28,000 kilometers an hour.", "stat": "400 km", "subtitle": "ISS altitude \u2014 orbit speed ~28,000 km/h"},
+        {"visual": "comparison", "text": "Rockets used to fly once and get thrown away. Now they fly again.", "title": "the reuse revolution", "left": "Expendable", "lvalue": "one flight, gone", "right": "Reusable", "rvalue": "refuel and fly again"},
+        {"visual": "progress_bar", "text": "Orbiting is a speed problem. Go sideways fast enough and you keep falling around Earth.", "title": "Orbital velocity", "label": "~28,000 km/h", "progress": 0.85},
+        {"visual": "callout", "text": "Falcon 9's booster lands itself on a floating barge.", "type": "info", "title": "self-landing booster", "body": "first reflight: 2017"},
+        {"visual": "CTA", "text": "Every launch is just throwing mass backward. Follow for more tech."}
+      ]
+    }
+  ],
+  "facts": [
+    {"claim": "James Webb Space Telescope launched on 25 December 2021 to the Sun\u2013Earth L2 point", "source_url": "https://en.wikipedia.org/wiki/James_Webb_Space_Telescope", "source_name": "Wikipedia \u2014 James Webb Space Telescope"},
+    {"claim": "First Falcon 9 booster reflight happened in March 2017 (SES-10)", "source_url": "https://en.wikipedia.org/wiki/Falcon_9", "source_name": "Wikipedia \u2014 Falcon 9"},
+    {"claim": "SpaceX Starship's first integrated orbital test flight was April 2023", "source_url": "https://en.wikipedia.org/wiki/SpaceX_Starship", "source_name": "Wikipedia \u2014 SpaceX Starship"},
+    {"claim": "ISS orbits at ~400 km altitude traveling ~7.66 km/s (~28,000 km/h)", "source_url": "https://en.wikipedia.org/wiki/International_Space_Station", "source_name": "Wikipedia \u2014 International Space Station"}
+  ],
+  "titles": ["Why rockets reuse themselves now", "Getting to orbit is a speed problem", "{news_short}: the space angle"],
+  "hashtags": ["#space", "#rockets", "#science", "#spacex", "#techshorts"]
+}

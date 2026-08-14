@@ -1,0 +1,30 @@
+{
+  "id": "koala-fingerprints",
+  "name": "Koalas have human-like fingerprints",
+  "target_seconds": 28,
+  "hook_variants": [
+    {"format": "contrarian", "template": "Not a human. But the fingerprints say otherwise.", "news_slot": false},
+    {"format": "question", "template": "What animal has fingerprints almost identical to yours?", "news_slot": false},
+    {"format": "direct-gap", "template": "Someone once feared koala prints could be found at crime scenes.", "news_slot": false}
+  ],
+  "body_variants": [
+    {
+      "name": "koala-prints",
+      "sections": [
+        {"visual": {"type": "video", "query": "koala"}, "text": "Koalas have fingerprints so similar to humans that experts once mistook them for human prints."},
+        {"visual": "stat_card", "text": "They're the only non-primates with friction-ridge fingerprints like ours.", "stat": "#2", "subtitle": "only non-primate with human-like prints"},
+        {"visual": "comparison", "text": "They even have similar ridge patterns and whorls — developed independently, since they last shared an ancestor ~70 million years ago.", "title": "convergence", "left": "Human finger", "lvalue": "ridges + whorls", "right": "Koala paw", "rvalue": "same design"},
+        {"visual": "callout", "text": "One case almost sent koala prints to a crime lab as evidence before the mix-up was caught.", "type": "info", "title": "the story", "body": "an actual police mix-up, by a fingerprint expert's claim"},
+        {"visual": {"type": "image", "query": "koala climbing"}, "text": "Criminology joke aside: same skin ridges, totally different tree-climbing reasons."},
+        {"visual": "CTA", "text": "Follow for more doppelgangers in nature."}
+      ]
+    }
+  ],
+  "facts": [
+    {"claim": "Koalas have fingerprints very similar to human fingerprints, a case of convergent evolution", "source_url": "https://en.wikipedia.org/wiki/Koala", "source_name": "Wikipedia — Koala"},
+    {"claim": "Koalas are one of the few non-primate mammals with friction-ridge fingerprints", "source_url": "https://en.wikipedia.org/wiki/Fingerprint", "source_name": "Wikipedia — Fingerprint"},
+    {"claim": "Marsupials and primates last shared a common ancestor roughly 70 million years ago", "source_url": "https://en.wikipedia.org/wiki/Marsupial", "source_name": "Wikipedia — Marsupial"}
+  ],
+  "titles": ["Koalas have human fingerprints", "The animal that could commit your crimes", "Nature's fingerprint doppelganger"],
+  "hashtags": ["#koala", "#facts", "#animals", "#science", "#techshorts"]
+}

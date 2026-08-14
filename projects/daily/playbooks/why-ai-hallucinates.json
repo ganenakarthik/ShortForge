@@ -1,0 +1,98 @@
+{
+  "id": "why-ai-hallucinates",
+  "name": "Why AI hallucinates",
+  "target_seconds": 30,
+  "hook_variants": [
+    {
+      "format": "direct-gap",
+      "template": "ChatGPT isn't wrong sometimes. It can't tell the difference.",
+      "news_slot": false
+    },
+    {
+      "format": "question",
+      "template": "Why does ChatGPT sound so sure and still get things wrong?",
+      "news_slot": false
+    },
+    {
+      "format": "news-bridge",
+      "template": "{news_title} Why models make things up.",
+      "news_slot": true
+    }
+  ],
+  "body_variants": [
+    {
+      "name": "causes-and-fixes",
+      "sections": [
+        {
+          "visual": "text_card",
+          "text": "Every word is a guess. Confidence is just how likely that guess felt."
+        },
+        {
+          "visual": "comparison",
+          "text": "It finds patterns that sound like facts. It never checks if they are true.",
+          "title": "what it has vs what it lacks",
+          "left": "Patterns",
+          "lvalue": "sound real",
+          "right": "Fact check",
+          "rvalue": "none"
+        },
+        {
+          "visual": "callout",
+          "text": "When it makes something up and sounds sure, that's a hallucination.",
+          "type": "warning",
+          "title": "hallucination",
+          "body": "made up, but said with confidence"
+        },
+        {
+          "visual": "terminal_scene",
+          "text": "It never checks. It just picks the most likely next word and moves on."
+        },
+        {
+          "visual": "progress_bar",
+          "text": "Even the best models do this. Confidence never drops.",
+          "title": "Confidence vs fact-checking",
+          "label": "no fact-check pass",
+          "progress": 0.0
+        },
+        {
+          "visual": "CTA",
+          "text": "So double-check before you trust. Follow for more on how AI works."
+        }
+      ]
+    }
+  ],
+  "facts": [
+    {
+      "claim": "Hallucination = plausible but fabricated output, delivered confidently",
+      "source_url": "https://arxiv.org/abs/2311.05232",
+      "source_name": "Survey on Hallucination in LLMs (Huang et al., 2023)"
+    },
+    {
+      "claim": "Cause: autoregressive next-token generation has no mechanism to verify against ground truth",
+      "source_url": "https://en.wikipedia.org/wiki/Hallucination_(artificial_intelligence)",
+      "source_name": "Wikipedia — Hallucination (AI)"
+    },
+    {
+      "claim": "Instruction tuning and retrieval (RAG) reduce but do not eliminate hallucinations",
+      "source_url": "https://arxiv.org/abs/2311.05232",
+      "source_name": "Survey on Hallucination in LLMs"
+    },
+    {
+      "claim": "Hallucination rate varies by task; open-answer generation is the most error-prone",
+      "source_url": "https://arxiv.org/abs/2311.05232",
+      "source_name": "Survey on Hallucination in LLMs"
+    }
+  ],
+  "titles": [
+    "Why ChatGPT lies so confidently",
+    "AI hallucinations, explained in 30 seconds",
+    "{news_short}: why AI makes things up"
+  ],
+  "hashtags": [
+    "#ai",
+    "#hallucination",
+    "#chatgpt",
+    "#explained",
+    "#techshorts"
+  ]
+}

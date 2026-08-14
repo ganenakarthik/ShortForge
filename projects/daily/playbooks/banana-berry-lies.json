@@ -1,0 +1,30 @@
+{
+  "id": "banana-berry-lies",
+  "name": "Bananas are berries (strawberries aren't)",
+  "target_seconds": 28,
+  "hook_variants": [
+    {"format": "contrarian", "template": "Bananas are berries. Strawberries are not. The food pyramid lied.", "news_slot": false},
+    {"format": "question", "template": "Which one is actually a berry: banana or strawberry?", "news_slot": false},
+    {"format": "direct-gap", "template": "Botanists would call your fruit salad a scam.", "news_slot": false}
+  ],
+  "body_variants": [
+    {
+      "name": "botany-berries",
+      "sections": [
+        {"visual": "text_card", "text": "In botany, a berry is a fruit grown from one flower with one ovary."},
+        {"visual": "comparison", "text": "By that rule, bananas and tomatoes count. Strawberries don't.", "title": "the real berries", "left": "Banana", "lvalue": "yes, a berry", "right": "Strawberry", "rvalue": "not a berry"},
+        {"visual": "callout", "text": "A strawberry is an 'aggregate fruit'. The dots are the actual fruits.", "type": "info", "title": "the twist", "body": "those seeds are real fruits"},
+        {"visual": "stat_card", "text": "Watermelon, pumpkin, and even chili peppers are berries too.", "stat": "4", "subtitle": "surprise berries: banana, tomato, watermelon, pumpkin"},
+        {"visual": "text_card", "text": "So next time, you can call a tomato a berry and be technically right."},
+        {"visual": "CTA", "text": "Follow for more facts that make you look smart at dinner."}
+      ]
+    }
+  ],
+  "facts": [
+    {"claim": "In botanical terms, a berry is a fleshy fruit from a single ovary of a single flower", "source_url": "https://en.wikipedia.org/wiki/Berry_(botany)", "source_name": "Wikipedia — Berry (botany)"},
+    {"claim": "Bananas, tomatoes, watermelons and pumpkins are botanically berries", "source_url": "https://en.wikipedia.org/wiki/Berry_(botany)", "source_name": "Wikipedia — Berry (botany)"},
+    {"claim": "The strawberry is an aggregate fruit, not a true berry", "source_url": "https://en.wikipedia.org/wiki/Strawberry", "source_name": "Wikipedia — Strawberry"}
+  ],
+  "titles": ["Bananas are berries (strawberries aren't)", "The fruit classification that breaks your brain", "You've been wrong about strawberries your whole life"],
+  "hashtags": ["#facts", "#science", "#food", "#mindblown", "#techshorts"]
+}

@@ -1,0 +1,30 @@
+{
+  "id": "sloths-hold-breath",
+  "name": "Sloths can hold their breath longer than dolphins",
+  "target_seconds": 28,
+  "hook_variants": [
+    {"format": "contrarian", "template": "The slowest land animal out-swims dolphins at holding its breath.", "news_slot": false},
+    {"format": "question", "template": "Which animal holds its breath longer: a dolphin or a sloth?", "news_slot": false},
+    {"format": "stat", "template": "A sloth can stay underwater for 40 minutes. A dolphin: about 10.", "news_slot": false}
+  ],
+  "body_variants": [
+    {
+      "name": "sloth-bradycardia",
+      "sections": [
+        {"visual": "text_card", "text": "Sloths can hold their breath for up to 40 minutes underwater. Typical dolphin dives: around 10 minutes."},
+        {"visual": "comparison", "text": "Their heart rate drops to about a third of normal, letting them conserve oxygen.", "title": "the trick", "left": "Dolphin dive", "lvalue": "~10 min", "right": "Sloth underwater", "rvalue": "~40 min"},
+        {"visual": "callout", "text": "They do this by slowing their heartbeat to a crawl — bradycardia on demand.", "type": "info", "title": "mechanism", "body": "heartbeat slows to ~1/3"},
+        {"visual": "stat_card", "text": "Their resting heart rate is already only about 25 beats per minute.", "stat": "~25 bpm", "subtitle": "one of the slowest of any mammal"},
+        {"visual": "text_card", "text": "So while dolphins are faster in the water, sloths win the deep-breath contest."},
+        {"visual": "CTA", "text": "Follow for more facts about the animal kingdom's dark horses."}
+      ]
+    }
+  ],
+  "facts": [
+    {"claim": "Sloths can hold their breath underwater for up to 40 minutes by slowing their heart rate", "source_url": "https://en.wikipedia.org/wiki/Sloth", "source_name": "Wikipedia — Sloth"},
+    {"claim": "Dolphins typically dive for about 10 minutes, with some species longer", "source_url": "https://en.wikipedia.org/wiki/Dolphin", "source_name": "Wikipedia — Dolphin"},
+    {"claim": "A sloth's resting heart rate is around 25 beats per minute", "source_url": "https://en.wikipedia.org/wiki/Sloth", "source_name": "Wikipedia — Sloth"}
+  ],
+  "titles": ["Sloths out-breathe dolphins", "The 40-minute breath: sloth edition", "Slow animal, huge lungs"],
+  "hashtags": ["#facts", "#animals", "#sloth", "#science", "#techshorts"]
+}

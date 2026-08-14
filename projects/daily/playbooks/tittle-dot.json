@@ -1,0 +1,30 @@
+{
+  "id": "tittle-dot",
+  "name": "The dot over the i is called a tittle",
+  "target_seconds": 28,
+  "hook_variants": [
+    {"format": "direct-gap", "template": "That dot over the i has a name. Nobody knows it.", "news_slot": false},
+    {"format": "question", "template": "What is the dot above the letter i actually called?", "news_slot": false},
+    {"format": "stat", "template": "The dot over 'i' and 'j' is a tittle. It has its own tiny name.", "news_slot": false}
+  ],
+  "body_variants": [
+    {
+      "name": "tittle",
+      "sections": [
+        {"visual": "text_card", "text": "The superscript dot on the lowercase i and j is called a 'tittle'."},
+        {"visual": "comparison", "text": "It started as a scribe's mark to tell adjacent i's apart before typewriters and printers standardized it.", "title": "origin", "left": "Medieval i", "lvalue": "no dot", "right": "Modern i", "rvalue": "tittle"},
+        {"visual": "callout", "text": "Other languages got creative: Turkish has a dotted i AND a dotless ı with different sounds.", "type": "info", "title": "bonus", "body": "Turkish keeps the tittle meaningful"},
+        {"visual": "stat_card", "text": "The word 'tittle' is also in the phrase 'jot and tittle' — meaning very small details.", "stat": "jot", "subtitle": "and tittle — the tiniest details"},
+        {"visual": "text_card", "text": "Next time you type an i, you're typing a tittle. You're welcome."},
+        {"visual": "CTA", "text": "Follow for more facts hiding in plain sight."}
+      ]
+    }
+  ],
+  "facts": [
+    {"claim": "The tittle is the superscript dot found above the lowercase i and j", "source_url": "https://en.wikipedia.org/wiki/Tittle", "source_name": "Wikipedia — Tittle"},
+    {"claim": "The tittle originated as a scribal mark to distinguish adjacent i's in handwriting", "source_url": "https://en.wikipedia.org/wiki/Tittle", "source_name": "Wikipedia — Tittle"},
+    {"claim": "'Jot and tittle' is an idiom referring to the smallest details", "source_url": "https://en.wikipedia.org/wiki/Tittle", "source_name": "Wikipedia — Tittle"}
+  ],
+  "titles": ["The dot over the i has a name", "The tittle: the smallest named thing in your keyboard", "What's a tittle?"],
+  "hashtags": ["#facts", "#language", "#words", "#everyday", "#techshorts"]
+}

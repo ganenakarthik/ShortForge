@@ -1,0 +1,30 @@
+{
+  "id": "sharks-older-than-trees",
+  "name": "Sharks are older than trees",
+  "target_seconds": 28,
+  "hook_variants": [
+    {"format": "contrarian", "template": "Sharks are older than trees. Think about that.", "news_slot": false},
+    {"format": "question", "template": "What existed first: sharks or trees?", "news_slot": false},
+    {"format": "stat", "template": "450 million years. That's how long sharks have been around.", "news_slot": false}
+  ],
+  "body_variants": [
+    {
+      "name": "shark-age",
+      "sections": [
+        {"visual": "text_card", "text": "Sharks have been on Earth for over 400 million years. Trees showed up around 350 million years ago."},
+        {"visual": "comparison", "text": "They swam the oceans for about 50 million years before the first tree existed.", "title": "the timeline", "left": "Sharks", "lvalue": "~450M years", "right": "Trees", "rvalue": "~350M years"},
+        {"visual": "callout", "text": "They survived ice ages, mass extinctions, and the dinosaurs.", "type": "info", "title": "survivors", "body": "5 mass extinctions survived"},
+        {"visual": "stat_card", "text": "Their basic body plan hasn't changed in about 200 million years.", "stat": "200M", "subtitle": "years of the same winning design"},
+        {"visual": "text_card", "text": "So yes, the ocean was doing fine before the forest even existed."},
+        {"visual": "CTA", "text": "Follow for more facts that rearrange your sense of time."}
+      ]
+    }
+  ],
+  "facts": [
+    {"claim": "Sharks first appeared in the fossil record over 400 million years ago, in the early Devonian", "source_url": "https://en.wikipedia.org/wiki/Shark", "source_name": "Wikipedia — Shark"},
+    {"claim": "Trees appeared around 350-360 million years ago in the Carboniferous period", "source_url": "https://en.wikipedia.org/wiki/Tree", "source_name": "Wikipedia — Tree"},
+    {"claim": "Sharks survived all five major mass extinction events", "source_url": "https://en.wikipedia.org/wiki/Shark", "source_name": "Wikipedia — Shark"}
+  ],
+  "titles": ["Sharks existed before trees", "Older than trees: the shark", "The ocean's oldest surviving design"],
+  "hashtags": ["#sharks", "#facts", "#nature", "#science", "#techshorts"]
+}

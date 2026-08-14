@@ -1,0 +1,30 @@
+{
+  "id": "nine-brained-octopus",
+  "name": "The octopus has nine brains",
+  "target_seconds": 28,
+  "hook_variants": [
+    {"format": "direct-gap", "template": "One brain wasn't enough. This animal has nine.", "news_slot": false},
+    {"format": "question", "template": "What animal has nine brains, three hearts, and blue blood?", "news_slot": false},
+    {"format": "stat", "template": "Nine brains. Three hearts. Blue blood. All in one animal.", "news_slot": false}
+  ],
+  "body_variants": [
+    {
+      "name": "nine-brains",
+      "sections": [
+        {"visual": "text_card", "text": "One central brain sits in the head. Eight more live in the arms."},
+        {"visual": "stat_card", "text": "Each arm has its own mini brain, about ten thousand neurons each.", "stat": "9", "subtitle": "brains: 1 central + 8 in the arms"},
+        {"visual": "comparison", "text": "The arms can act on their own. They even react after being cut off.", "title": "control", "left": "Your arm", "lvalue": "needs your brain", "right": "Octopus arm", "rvalue": "thinks for itself"},
+        {"visual": "callout", "text": "That's why they can taste with their suckers and untie knots blindfolded.", "type": "info", "title": "why it matters", "body": "suckers can taste"},
+        {"visual": "progress_bar", "text": "And the whole thing runs on a nervous system closer to a spider's than a fish's.", "title": "Neuron count", "label": "~500 million neurons", "progress": 0.5},
+        {"visual": "CTA", "text": "Follow for more facts that sound fake but are true."}
+      ]
+    }
+  ],
+  "facts": [
+    {"claim": "Octopuses have a central brain plus a ganglion (mini-brain) in each of their eight arms", "source_url": "https://en.wikipedia.org/wiki/Octopus", "source_name": "Wikipedia — Octopus"},
+    {"claim": "Octopuses have three hearts and copper-based blue blood", "source_url": "https://en.wikipedia.org/wiki/Octopus", "source_name": "Wikipedia — Octopus"},
+    {"claim": "Octopus arms can act independently and react to stimuli even after being severed", "source_url": "https://en.wikipedia.org/wiki/Octopus", "source_name": "Wikipedia — Octopus"}
+  ],
+  "titles": ["This animal has nine brains", "Nine brains, three hearts: the octopus", "The octopus thinks with its arms"],
+  "hashtags": ["#octopus", "#facts", "#animals", "#mindblown", "#techshorts"]
+}

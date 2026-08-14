@@ -1,0 +1,42 @@
+{
+  "id": "ai-on-your-machine",
+  "name": "Running AI on your own laptop",
+  "target_seconds": 30,
+  "hook_variants": [
+    {
+      "format": "question",
+      "template": "That chatbot in your browser? You could run one yourself. Here's how.",
+      "news_slot": false
+    },
+    {
+      "format": "news-bridge",
+      "template": "{news_title} And yes, models this big can run at home.",
+      "news_slot": true
+    },
+    {
+      "format": "stat",
+      "template": "Models used on one laptop. That's the change in AI right now.",
+      "news_slot": false
+    }
+  ],
+  "body_variants": [
+    {
+      "name": "local-scale",
+      "sections": [
+        {"visual": "text_card", "text": "Small models run on your machine. No cloud, no bill, no waiting."},
+        {"visual": "stat_card", "text": "Open models are getting big. One releases with 172 billion parameters.", "stat": "172B", "subtitle": "open model \u2014 llm-jp-3"},
+        {"visual": "bar_chart", "text": "It trained on 2.1 trillion tokens of text. These models only get bigger.", "title": "Training tokens (trillions)", "data": [{"label": "llm-jp-3", "value": 2.1}]},
+        {"visual": "terminal_scene", "text": "On your side, a small model can still answer, summarize, and help offline. Ollama makes it a one line install."},
+        {"visual": "callout", "text": "That line: ollama run. That's the whole tutorial.", "title": "start local", "body": "ollama run llama3"},
+        {"visual": "CTA", "text": "No cloud needed. Follow for the next AI explainer."}
+      ]
+    }
+  ],
+  "facts": [
+    {"claim": "Open 172B-parameter model trained on ~2.1T tokens (llm-jp-3)", "source_url": "https://www.nii.ac.jp/en/news/release/2024/1224.html", "source_name": "NII Japan \u2014 llm-jp-3-172b release"},
+    {"claim": "Ollama runs open models locally with a single command", "source_url": "https://ollama.com/", "source_name": "Ollama"},
+    {"claim": "7B-class models are quantitative: they run on laptop-class hardware", "source_url": "https://mistral.ai/news/announcing-mistral-7b/", "source_name": "Mistral AI \u2014 Mistral 7B announcement"}
+  ],
+  "titles": ["Run an AI model on your laptop", "Local AI is real. Here's the proof.", "{news_short}: the home-AI angle"],
+  "hashtags": ["#ai", "#localllm", "#ollama", "#opensource", "#techshorts"]
+}

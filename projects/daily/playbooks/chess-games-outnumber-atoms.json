@@ -1,0 +1,30 @@
+{
+  "id": "chess-games-outnumber-atoms",
+  "name": "More chess games than atoms in the universe",
+  "target_seconds": 28,
+  "hook_variants": [
+    {"format": "stat", "template": "The number of possible chess games is bigger than the number of atoms in the universe.", "news_slot": false},
+    {"format": "question", "template": "Which is bigger: chess possibilities or atoms in the universe?", "news_slot": false},
+    {"format": "direct-gap", "template": "There's a number so huge that even the universe can't count that high.", "news_slot": false}
+  ],
+  "body_variants": [
+    {
+      "name": "shannon-number",
+      "sections": [
+        {"visual": "text_card", "text": "Chess has around 10 to the power of 120 possible games. The observable universe has about 10 to the power of 80 atoms."},
+        {"visual": "stat_card", "text": "The Shannon number — named after Claude Shannon — estimates 10^120 game paths.", "stat": "10^120", "subtitle": "possible chess games"},
+        {"visual": "comparison", "text": "The universe only holds 10^80 atoms. The chessboard wins by 40 zeroes.", "title": "the race", "left": "Chess games", "lvalue": "10^120", "right": "Atoms in universe", "rvalue": "10^80"},
+        {"visual": "callout", "text": "Every chess game ever played on Earth is a rounding error in that space.", "type": "info", "title": "scale", "body": "humans have explored ~0% of it"},
+        {"visual": "progress_bar", "text": "That's why no machine can ever 'solve' chess by brute force.", "title": "Ways a game can go", "label": "10^120 branches", "progress": 1.0},
+        {"visual": "CTA", "text": "Follow for more numbers that break your brain."}
+      ]
+    }
+  ],
+  "facts": [
+    {"claim": "The Shannon number, named after Claude Shannon, estimates about 10^120 possible chess games", "source_url": "https://en.wikipedia.org/wiki/Shannon_number", "source_name": "Wikipedia — Shannon number"},
+    {"claim": "The observable universe contains around 10^80 atoms", "source_url": "https://en.wikipedia.org/wiki/Observable_universe", "source_name": "Wikipedia — Observable universe"},
+    {"claim": "The game of chess was formalized by the FIDE, the international chess federation", "source_url": "https://en.wikipedia.org/wiki/Chess", "source_name": "Wikipedia — Chess"}
+  ],
+  "titles": ["More chess games than atoms in the universe", "The number 10^120 that beats the cosmos", "Chess: the universe's impossible search space"],
+  "hashtags": ["#chess", "#math", "#facts", "#mindblown", "#techshorts"]
+}

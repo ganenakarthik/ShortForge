@@ -1,0 +1,30 @@
+{
+  "id": "cleopatra-moon-landing",
+  "name": "Cleopatra lived closer to the Moon landing than to the pyramids",
+  "target_seconds": 28,
+  "hook_variants": [
+    {"format": "contrarian", "template": "Cleopatra was born closer to the Moon landing than to the pyramids.", "news_slot": false},
+    {"format": "question", "template": "Who lived closer to today: Cleopatra or the pyramid builders?", "news_slot": false},
+    {"format": "direct-gap", "template": "The pyramids were ancient history to the ancient Egyptians.", "news_slot": false}
+  ],
+  "body_variants": [
+    {
+      "name": "timeline-gap",
+      "sections": [
+        {"visual": "text_card", "text": "The Great Pyramid was built around 2560 BC. Cleopatra lived around 30 BC. Apollo 11 landed in 1969."},
+        {"visual": "comparison", "text": "2030 years are between the pyramid and Cleopatra. Only 1999 years between Cleopatra and the Moon landing.", "title": "the distances", "left": "Pyramid → Cleopatra", "lvalue": "≈ 2030 yrs", "right": "Cleopatra → Moon", "rvalue": "≈ 1999 yrs"},
+        {"visual": "callout", "text": "So the pyramid builders were farther from Cleopatra than she was from smartphones.", "type": "info", "title": "the twist", "body": "she's closer to us than to them"},
+        {"visual": "stat_card", "text": "Cleopatra reigned around 51 to 30 BC — closer to today than to the pyramid era.", "stat": "~2000 yrs", "subtitle": "each way, give or take"},
+        {"visual": "text_card", "text": "The Romans studied pyramids the way we study Roman ruins. Ancient history layers on layers."},
+        {"visual": "CTA", "text": "Follow for more facts that stretch your sense of time."}
+      ]
+    }
+  ],
+  "facts": [
+    {"claim": "The Great Pyramid of Giza was completed around 2560 BC", "source_url": "https://en.wikipedia.org/wiki/Great_Pyramid_of_Giza", "source_name": "Wikipedia — Great Pyramid of Giza"},
+    {"claim": "Cleopatra ruled Egypt from 51 to 30 BC and died in 30 BC", "source_url": "https://en.wikipedia.org/wiki/Cleopatra", "source_name": "Wikipedia — Cleopatra"},
+    {"claim": "Apollo 11 landed humans on the Moon in July 1969", "source_url": "https://en.wikipedia.org/wiki/Apollo_11", "source_name": "Wikipedia — Apollo 11"}
+  ],
+  "titles": ["Cleopatra is closer to the Moon landing than to the pyramids", "The ancient history that was ancient to Egypt", "Timelines that don't feel real"],
+  "hashtags": ["#history", "#facts", "#mindblown", "#egypt", "#techshorts"]
+}

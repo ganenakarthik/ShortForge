@@ -1,0 +1,30 @@
+{
+  "id": "venus-longer-day",
+  "name": "A day on Venus is longer than its year",
+  "target_seconds": 28,
+  "hook_variants": [
+    {"format": "contrarian", "template": "On Venus, a day is longer than a year. Math breaks down there.", "news_slot": false},
+    {"format": "question", "template": "Which planet has a day longer than its year?", "news_slot": false},
+    {"format": "stat", "template": "One day on Venus: 243 Earth days. One year: 225. Impossible, right?", "news_slot": false}
+  ],
+  "body_variants": [
+    {
+      "name": "venus-rotation",
+      "sections": [
+        {"visual": "text_card", "text": "Venus spins on its axis once every 243 Earth days, but orbits the Sun in 225 Earth days."},
+        {"visual": "progress_bar", "text": "So a full day-night cycle takes longer than its entire trip around the Sun.", "title": "Venus day vs Earth day", "label": "1 Venus day = 243 Earth days", "progress": 0.65},
+        {"visual": "comparison", "text": "It also spins backwards. On Venus, the Sun rises in the west and sets in the east.", "title": "directions", "left": "Earth", "lvalue": "Sun rises east", "right": "Venus", "rvalue": "Sun rises west"},
+        {"visual": "callout", "text": "Planet scientists think a giant ancient collision flipped its spin.", "type": "info", "title": "why", "body": "a massive impact may have reversed it"},
+        {"visual": "stat_card", "text": "Surface conditions are hostile: 465°C heat and pressure 92 times Earth's.", "stat": "465°C", "subtitle": "hot enough to melt lead"},
+        {"visual": "CTA", "text": "Follow for more ways planets embarrass Earth."}
+      ]
+    }
+  ],
+  "facts": [
+    {"claim": "Venus rotates once every 243 Earth days, a day longer than its 225-day orbital period", "source_url": "https://en.wikipedia.org/wiki/Venus", "source_name": "Wikipedia — Venus"},
+    {"claim": "Venus rotates retrograde (backwards) so its sun rises in the west", "source_url": "https://en.wikipedia.org/wiki/Venus", "source_name": "Wikipedia — Venus"},
+    {"claim": "Venus has a 465°C average surface temperature and 92 bar pressure", "source_url": "https://en.wikipedia.org/wiki/Venus", "source_name": "Wikipedia — Venus"}
+  ],
+  "titles": ["On Venus, a day is longer than a year", "The planet where time makes no sense", "Venus: 243-day day, 225-day year"],
+  "hashtags": ["#space", "#venus", "#facts", "#astronomy", "#techshorts"]
+}

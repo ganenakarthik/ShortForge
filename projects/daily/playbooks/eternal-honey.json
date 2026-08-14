@@ -1,0 +1,30 @@
+{
+  "id": "eternal-honey",
+  "name": "Honey never goes bad",
+  "target_seconds": 28,
+  "hook_variants": [
+    {"format": "stat", "template": "A food that never expires. Found edible after 3,000 years.", "news_slot": false},
+    {"format": "question", "template": "What food was still edible after 3,000 years in a tomb?", "news_slot": false},
+    {"format": "direct-gap", "template": "Forget canned food. This one has a shelf life of forever.", "news_slot": false}
+  ],
+  "body_variants": [
+    {
+      "name": "why-honey-lasts",
+      "sections": [
+        {"visual": "text_card", "text": "Honey almost never spoils. Archaeologists ate 3,000-year-old honey from Egyptian tombs."},
+        {"visual": "callout", "text": "Two reasons: it's mostly sugar, and it has almost no water. Microbes can't survive in it.", "type": "info", "title": "the secret", "body": "low water + high sugar = sterile"},
+        {"visual": "stat_card", "text": "Bees make it 17 to 18 percent water, then air out the hive to dry it further.", "stat": "17-18%", "subtitle": "water content — too low for bacteria"},
+        {"visual": "comparison", "text": "It even has a built-in antibacterial, hydrogen peroxide, produced by an enzyme bees add.", "title": "defense system", "left": "Bacteria", "lvalue": "dies on contact", "right": "Honey", "rvalue": "never expires"},
+        {"visual": "text_card", "text": "The only catch: moisture gets in, it can ferment. Keep it sealed and it outlives you."},
+        {"visual": "CTA", "text": "Follow for more facts that sound too good to be true."}
+      ]
+    }
+  ],
+  "facts": [
+    {"claim": "Archaeologists found 3,000-year-old honey in Egyptian tombs that was still edible", "source_url": "https://en.wikipedia.org/wiki/Honey", "source_name": "Wikipedia — Honey"},
+    {"claim": "Honey is stable because its low water content and high sugar content prevent microbial growth", "source_url": "https://en.wikipedia.org/wiki/Honey", "source_name": "Wikipedia — Honey"},
+    {"claim": "Bees produce honey with ~17-18% water content", "source_url": "https://en.wikipedia.org/wiki/Honey", "source_name": "Wikipedia — Honey"}
+  ],
+  "titles": ["This food never expires", "3,000-year-old honey, still edible", "Honey doesn't go bad. Here's why."],
+  "hashtags": ["#facts", "#food", "#science", "#history", "#techshorts"]
+}
