@@ -105,7 +105,10 @@ def _build_captions(job: dict, starts: dict, ends: dict, durations: dict,
                 "endMs": round(w["end"] * 1000),
                 "emphasize": w["text"].lower().strip(".,!?") in emph_sets.get(sid, set()),
             })
-    caps.sort(key=lambda c: c["startMs"])
+    # Words are already in correct segment order from align (per-segment
+    # greedy ordered match). Whisper per-word timestamps near segment
+    # boundaries are unreliable, so a GLOBAL timestamp sort would scatter
+    # words across beats — never re-sort the whole timeline.
     for i in range(1, len(caps)):
         prev_end = caps[i - 1]["endMs"]
         if caps[i]["startMs"] < prev_end:

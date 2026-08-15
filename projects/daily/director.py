@@ -47,12 +47,17 @@ MOTIONS = {
     "punctuate": ["zoom_out", "static"],
 }
 
+# Per-visual-type motion bias: text pops, footage glides. Applied on top of
+# the purpose pool so text cards punch instead of sitting still.
+TEXT_MOTION_POOL = ["punch_in", "pop_up", "zoom_in", "punch_in"]
+FOOTAGE_MOTION_POOL = ["zoom_in", "pan_up", "punch_in", "pan_down"]
+
 TRANSITIONS = {
-    "hook": ["cut", "fade"],
-    "setup": ["cut", "fade"],
-    "show": ["cut", "fade", "slide_left"],
+    "hook": ["punch", "cut"],
+    "setup": ["fade", "cut", "punch"],
+    "show": ["cut", "punch", "fade"],
     "contrast": ["slide_left", "slide_right", "cut"],
-    "reveal": ["cut", "punch"],
+    "reveal": ["punch", "cut"],
     "signal": ["fade", "slide_right"],
     "punctuate": ["fade", "cut"],
 }
@@ -114,7 +119,7 @@ def pick_hook(playbook: dict, seed: int) -> dict:
 # Beat -> narration segmentation (spoken delivery)
 # ---------------------------------------------------------------------------
 
-MAX_BEAT_WORDS = 26
+MAX_BEAT_WORDS = 22
 
 
 def _split_beat_text(text: str) -> list[str]:
@@ -193,7 +198,9 @@ def _build_shots(beats: list[dict], seed: int) -> list[dict]:
             n_shots = 1                                   # internal animation
         elif vtype == "hero_title":
             n_shots = 2 if text_len > 9 else 1            # long hook = double hit
-        elif text_len > 16 and purpose in ("show", "setup"):
+        elif text_len > 20 and purpose in ("show", "setup"):
+            n_shots = 3                                   # fast montage rhythm
+        elif text_len > 12 and purpose in ("show", "setup"):
             n_shots = 2                                   # punch zoom mid-sentence
         elif bi == total - 1:
             n_shots = 1
@@ -211,9 +218,15 @@ def _build_shots(beats: list[dict], seed: int) -> list[dict]:
             prev_motion = shots[-1]["motion"] if shots else None
             pool = [m for m in motion_pool if m != prev_motion] or motion_pool
             motion = pool[(seed + len(shots)) % len(pool)]
-            # static only for scenes that animate internally; a held text card
-            # with no motion is a dead frame
-            if motion == "static" and vtype not in SELF_ANIMATED_TYPES:
+            # visual-type bias: text pops, footage glides — then still force a
+            # living frame (a held text card with no motion is a dead frame)
+            if vtype in ("image", "video"):
+                fpool = [m for m in FOOTAGE_MOTION_POOL if m != prev_motion] or FOOTAGE_MOTION_POOL
+                motion = fpool[(seed + len(shots)) % len(fpool)]
+            elif vtype in ("text_card", "hero_title", "callout", "comparison", "stat_card"):
+                tpool = [m for m in TEXT_MOTION_POOL if m != prev_motion] or TEXT_MOTION_POOL
+                motion = tpool[(seed + len(shots)) % len(tpool)]
+            elif motion == "static" and vtype not in SELF_ANIMATED_TYPES:
                 alive = [m for m in pool if m != "static"] or ["zoom_in"]
                 motion = alive[(seed + len(shots)) % len(alive)]
 

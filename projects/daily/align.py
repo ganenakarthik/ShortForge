@@ -48,13 +48,20 @@ def _uniform_words(segments: list[dict], durations: dict[str, float], starts: di
     return words
 
 
+def _norm(tok: str) -> str:
+    return tok.strip(".,?!\u2014;:'\"\u201c\u201d()[]").lower()
+
+
 def _words_to_segments(words: list[dict], segments: list[dict]) -> list[dict]:
     """Rebuild per-segment word lists from the flat aligned sequence.
 
-    We walk the flat word list once; each word is assigned to the segment
-    that contains its midpoint. Then per segment, cap words to the expected
-    token sequence (whisper sometimes merges/omits); extra tokens are dropped,
-    missing slots get estimated timing slots at the segment edge.
+    Each word is assigned to the segment that contains its midpoint. Whisper
+    can mis-hear, merge, or duplicate words, so we map the EXPECTED narration
+    tokens onto the whisper times with a greedy ORDERED match (subsequence):
+    - whisper-inserted tokens (not in the expected text) are skipped,
+    - expected tokens whisper missed get estimated slots interpolated between
+      the nearest known neighbours,
+    so the caption text is ALWAYS the narration text in the right order.
     """
     outs = {s["id"]: [] for s in segments}
     bounds = [(seg["id"], seg.get("_start", 0.0), seg.get("_end", 1e9)) for seg in segments]
@@ -70,26 +77,50 @@ def _words_to_segments(words: list[dict], segments: list[dict]) -> list[dict]:
     result = []
     for seg in segments:
         sid = seg["id"]
-        expected = [t.strip(".,?!\u2014;:'\"") for t in seg["text"].split() if t]
+        expected = [t for t in seg["text"].split() if t]
+        s0 = seg["_start"]
+        s1 = seg["_end"]
         ow = outs[sid]
-        ohash = [w["text"].lower() for w in ow]
 
-        picked = [w for w, h in zip(ow, ohash) if h in {e.lower() for e in expected}]
-        if len(picked) < len(expected):
-            # fill missing words with estimated slots at the tail
-            s0 = seg["_start"]; s1 = seg["_end"]
-            if not picked:
-                step = (s1 - s0) / max(1, len(expected))
-                picked = [{"text": e, "start": s0 + i * step, "end": s0 + (i + 1) * step, "estimated": True}
-                          for i, e in enumerate(expected)]
+        # Greedy ordered match: walk the expected sequence, advancing through
+        # whisper words only forward; consume a whisper word when its text
+        # matches the current expected token.
+        matched = []  # (expected_token, whisper_word_or_None)
+        ai = 0
+        for exp in expected:
+            while ai < len(ow) and _norm(ow[ai]["text"]) != _norm(exp):
+                ai += 1  # whisper-inserted word -> skip
+            if ai < len(ow):
+                matched.append((exp, ow[ai]))
+                ai += 1
             else:
-                last = picked[-1]["end"]
-                step = max(0.05, (s1 - last) / max(1, len(expected) - len(picked)))
-                picked += [{"text": e, "start": last + i * step, "end": last + (i + 1) * step, "estimated": True}
-                           for i, e in enumerate(expected[len(picked):])]
+                matched.append((exp, None))
+
+        # Interpolate estimated slots for the tokens whisper missed, using the
+        # nearest known boundaries (neighbour times or segment edges).
+        timings = {}
+        for i, (exp, w) in enumerate(matched):
+            if w is not None:
+                timings[i] = (w["start"], w["end"])
+        picked = []
+        prev_end = None
+        for i, (exp, w) in enumerate(matched):
+            if w is not None:
+                picked.append(w)
+                prev_end = w["end"]
+                continue
+            nxt_start = next((timings[j][0] for j in range(i + 1, len(matched)) if j in timings), None)
+            start = prev_end if prev_end is not None else s0
+            end = nxt_start if nxt_start is not None else s1
+            if end <= start:
+                end = min(s1, start + max(0.12, (s1 - s0) / max(1, len(expected))))
+            step = max(0.06, end - start)
+            ew = {"text": exp, "start": start, "end": start + step, "estimated": True}
+            picked.append(ew)
+            prev_end = ew["end"]
 
         result.append({"id": sid, "text": seg["text"],
-                       "start": seg["_start"], "end": seg["_end"], "words": picked})
+                       "start": s0, "end": s1, "words": picked})
     return result
 
 

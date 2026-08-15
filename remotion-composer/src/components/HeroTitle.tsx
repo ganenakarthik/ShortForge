@@ -11,58 +11,73 @@ type HeroTitleProps = {
   subtitle?: string;
 };
 
+const EMPHASIS_WORD_LIMIT = 3;
+
 export const HeroTitle: React.FC<HeroTitleProps> = ({ title, subtitle }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
-  // Staggered letter-by-letter spring
-  const titleChars = title.split("");
+  const words = title.split(/\s+/).filter(Boolean);
 
   return (
     <AbsoluteFill
       style={{
         justifyContent: "center",
         alignItems: "center",
+        paddingBottom: 120,
         background:
           "radial-gradient(ellipse at center, rgba(15,23,42,0.35) 0%, rgba(15,23,42,0.55) 100%)",
       }}
     >
-      <div style={{ textAlign: "center", maxWidth: "85%" }}>
-        {/* Main title with per-character spring */}
+      <div style={{ textAlign: "center", maxWidth: "86%" }}>
+        {/* Main title, word-safe (letters never break mid-word), first words accented */}
         <div
           style={{
-            fontSize: 84,
+            fontSize: 88,
             fontWeight: 800,
             fontFamily: "Space Grotesk, Inter, system-ui, sans-serif",
-            lineHeight: 1.2,
+            lineHeight: 1.18,
+            letterSpacing: "0.01em",
             display: "flex",
             justifyContent: "center",
             flexWrap: "wrap",
-            gap: 0,
-            textShadow: "0 4px 24px rgba(0,0,0,0.5)",
+            columnGap: "0.3em",
+            textShadow: "0 6px 30px rgba(0,0,0,0.55)",
           }}
         >
-          {titleChars.map((char, i) => {
-            const delay = i * 1.2;
-            const charSpring = spring({
-              frame: frame - delay,
-              fps,
-              config: { damping: 12, stiffness: 150 },
-            });
-
+          {words.map((word, wi) => {
+            const accent = wi < EMPHASIS_WORD_LIMIT;
             return (
               <span
-                key={i}
+                key={wi}
                 style={{
-                  display: "inline-block",
-                  opacity: charSpring,
-                  transform: `translateY(${interpolate(charSpring, [0, 1], [30, 0])}px)`,
-                  color: i < 8 ? "#22D3EE" : "#F8FAFC", // Accent first word
-                  whiteSpace: char === " " ? "pre" : undefined,
-                  minWidth: char === " " ? "0.3em" : undefined,
+                  color: accent ? "#22D3EE" : "#FFFFFF",
+                  display: "inline-flex",
                 }}
               >
-                {char}
+                {word.split("").map((char, ci) => {
+                  const delay = (wi * 6 + ci) * 1.1;
+                  const cs = spring({
+                    frame: frame - delay,
+                    fps,
+                    config: { damping: 12, stiffness: 150 },
+                  });
+                  return (
+                    <span
+                      key={ci}
+                      style={{
+                        display: "inline-block",
+                        opacity: cs,
+                        transform: `translateY(${interpolate(cs, [0, 1], [34, 0])}px)`,
+                        textShadow: accent
+                          ? `0 0 30px rgba(34,211,238,0.55)`
+                          : undefined,
+                      }}
+                    >
+                      {char}
+                    </span>
+                  );
+                })}
               </span>
             );
           })}
@@ -72,13 +87,13 @@ export const HeroTitle: React.FC<HeroTitleProps> = ({ title, subtitle }) => {
         {subtitle && (
           <div
             style={{
-              marginTop: 20,
+              marginTop: 22,
               opacity: spring({
-                frame: frame - titleChars.length * 1.2 - 5,
+                frame: frame - words.length * 6 * 1.1 - 5,
                 fps,
                 config: { damping: 20 },
               }),
-              fontSize: 28,
+              fontSize: 30,
               fontWeight: 400,
               color: "#A78BFA",
               fontFamily: "Space Grotesk, Inter, system-ui, sans-serif",
@@ -93,7 +108,7 @@ export const HeroTitle: React.FC<HeroTitleProps> = ({ title, subtitle }) => {
         {/* Animated underline */}
         <div
           style={{
-            margin: "24px auto 0",
+            margin: "26px auto 0",
             height: 3,
             backgroundColor: "#22D3EE",
             borderRadius: 2,
@@ -104,7 +119,7 @@ export const HeroTitle: React.FC<HeroTitleProps> = ({ title, subtitle }) => {
                 config: { damping: 15, stiffness: 60 },
               }),
               [0, 1],
-              [0, 400]
+              [0, 420]
             ),
           }}
         />

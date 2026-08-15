@@ -995,7 +995,7 @@ export const Explainer: React.FC<ExplainerProps> = (props) => {
   const avatar = props.avatar as ExplainerProps["avatar"];
   const avatarEnabled = !!avatar?.enabled;
   const stagePaddingBottom = avatarEnabled ? 520 : 0;
-  const captionPaddingBottom = avatarEnabled ? 580 : 80;
+  const captionPaddingBottom = avatarEnabled ? 620 : 300;
 
   return (
     <AbsoluteFill style={{ background: theme.backgroundColor, fontFamily: theme.headingFont || fontFamily }}>
@@ -1037,8 +1037,8 @@ export const Explainer: React.FC<ExplainerProps> = (props) => {
       {captions && captions.length > 0 && (
         <CaptionOverlay
           words={captions}
-          wordsPerPage={5}
-          fontSize={44}
+          wordsPerPage={4}
+          fontSize={60}
           highlightColor={theme.captionHighlightColor}
           emphasisColor={theme.accentColor}
           backgroundColor={theme.captionBackgroundColor}
