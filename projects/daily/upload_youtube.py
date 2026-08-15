@@ -131,8 +131,9 @@ def main():
             try:
                 req = youtube.videos().update(
                     part="status",
-                    body={"id": entry["video_id"],
-                          "status": {"privacyStatus": os.environ.get("YT_PRIVACY", "public")}})
+body={"id": entry["video_id"],
+                      "status": {"privacyStatus": os.environ.get("YT_PRIVACY", "public"),
+                                 "embeddable": True}})
                 resp = req.execute()
                 print(f"[{i}] {entry['title'][:50]} -> {resp['status']['privacyStatus']} "
                       f"(https://youtu.be/{entry['video_id']})")
@@ -163,8 +164,9 @@ def main():
                 "tags": ["ai", "explained", "shorts"],
                 "categoryId": "27",
             },
-            "status": {
+"status": {
                 "privacyStatus": os.environ.get("YT_PRIVACY", "public"),
+                "embeddable": True,
                 "selfDeclaredMadeForKids": False,
                 "selfDeclaredContentRating": None,
             },
