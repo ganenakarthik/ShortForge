@@ -30,12 +30,15 @@ VENV = os.path.join(OPENMONTAGE, ".venv", "Scripts")
 GAP = 0.16
 TAIL = 0.9
 MIN_SHOT = 0.9
-# V2.1: no hard shot-length rule — the rule is NO STATIC/FILLER SHOTS.
-# MAX_SHOT is a runaway safety net only (12s), V2.1 QC warns on long shots.
-MAX_SHOT = 12.0
-SFX_BUDGET = 3
+# V2.2 (winning-format spec): shot length is capped at ~3.5s — viral Shorts
+# hold 1.4-1.8s early and stretch to 2.6-3.2s; longer shots read as dead air.
+MAX_SHOT = 3.5
+SFX_BUDGET = 4
 TRANSITION_DUR = {"fade": 0.30, "punch": 0.24, "slide_left": 0.34, "slide_right": 0.34,
                   "cut": 0.0, "none": 0.0}
+# Captions LEAD the spoken word by 100-300ms (5,000-Shorts benchmark:
+# lagging captions cut completion ~9%).
+CAPTION_LEAD_MS = 150
 
 sys.path.insert(0, ROOT)
 import tts_engine  # noqa: E402
@@ -104,6 +107,7 @@ def _build_captions(job: dict, starts: dict, ends: dict, durations: dict,
                 "startMs": round(w["start"] * 1000),
                 "endMs": round(w["end"] * 1000),
                 "emphasize": w["text"].lower().strip(".,!?") in emph_sets.get(sid, set()),
+                "seg": sid,
             })
     # Words are already in correct segment order from align (per-segment
     # greedy ordered match). Whisper per-word timestamps near segment
@@ -115,6 +119,13 @@ def _build_captions(job: dict, starts: dict, ends: dict, durations: dict,
             caps[i]["startMs"] = prev_end
         if caps[i]["endMs"] <= caps[i]["startMs"]:
             caps[i]["endMs"] = caps[i]["startMs"] + 30
+    # V2.2: captions lead the voice by CAPTION_LEAD_MS (read-along pace).
+    for c in caps:
+        c["startMs"] = max(0, c["startMs"] - CAPTION_LEAD_MS)
+        c["endMs"] = max(c["endMs"] - CAPTION_LEAD_MS, c["startMs"] + 30)
+    for i in range(1, len(caps)):
+        if caps[i]["startMs"] < caps[i - 1]["startMs"]:
+            caps[i]["startMs"] = caps[i - 1]["startMs"]
     return caps, engine
 
 
@@ -144,15 +155,21 @@ def _resolve_shots(job: dict, starts: dict, ends: dict, video_end: float):
     for s in shots:
         ins.append(_resolve_anchor(s["anchor"], starts, ends))
 
+    # winning-format rule: first hard cut lands at ~1.0s (spec band 0.6-1.1s),
+    # independent of narration length
+    if len(ins) > 1 and ins[0] + 1.0 < ins[1]:
+        ins[1] = ins[0] + 1.0
+
     out = {}
     for i, s in enumerate(shots):
         nxt_in = ins[i + 1] if i + 1 < len(shots) else video_end
         dur = nxt_in - ins[i]
         if dur < MIN_SHOT:                      # too tight: hold to next boundary
             dur = MIN_SHOT
-        out[s["id"]] = ins[i] + min(dur, MAX_SHOT if s.get("purpose") not in ("signal", "punctuate") else 9.0)
+        out[s["id"]] = ins[i] + min(dur, MAX_SHOT)
 
     # transition overlap: previous shot extends into the next transition
+    # (capped at MAX_SHOT so shots never exceed the 3.5s ceiling)
     for i in range(len(shots) - 1):
         nxt = shots[i + 1]
         tr = nxt.get("transition", "cut")
@@ -160,13 +177,24 @@ def _resolve_shots(job: dict, starts: dict, ends: dict, video_end: float):
         if tr_dur > 0:
             cur_out = out[shots[i]["id"]]
             nxt_in = ins[i + 1]
-            if cur_out <= nxt_in:
-                out[shots[i]["id"]] = nxt_in + tr_dur
+            capped = min(ins[i] + MAX_SHOT, nxt_in + tr_dur)
+            if cur_out < capped:
+                out[shots[i]["id"]] = capped
 
     # clamp so no overlap exceeds the next shot's full duration
     for i in range(len(shots) - 1):
         if out[shots[i]["id"]] > ins[i + 1] + max(0.0, out[shots[i + 1]["id"]] - ins[i + 1]):
             out[shots[i]["id"]] = ins[i + 1] + 0.2
+
+    # close dead gaps: if a shot hit the MAX_SHOT ceiling while its narration
+    # is still running into the next shot, hold it instead of leaving empty
+    # background on screen (static-void = death in the winning format)
+    for i in range(len(shots) - 1):
+        cur = shots[i]
+        seg_end = ends.get(cur["anchor"].get("narration"), 0.0)
+        nxt_in = ins[i + 1]
+        if seg_end > nxt_in - 0.15 and out[cur["id"]] < nxt_in - 0.3:
+            out[cur["id"]] = nxt_in
 
     return ins, out
 
@@ -177,6 +205,10 @@ def _resolve_shots(job: dict, starts: dict, ends: dict, video_end: float):
 
 def _sfx_events(job: dict, ins: list, outs: dict) -> list[dict]:
     events = []
+    # V2.2: the audio layer that wins — a cinematic riser under the voice
+    # inside the first 3 seconds. Removing it drops perceived energy ~30%.
+    events.append({"type": "rise", "in_seconds": 0.12, "duration": 1.6,
+                   "seed": job["seed"], "volume": 0.35})
     for i, s in enumerate(job["shots"]):
         for fx in s.get("sfx", []):
             if len(events) >= SFX_BUDGET:
@@ -248,6 +280,13 @@ def _render_job_internal(job_path: str, out_mp4: str,
     os.makedirs(pub_dir, exist_ok=True)
     accent_pool = ["#22D3EE", "#F59E0B", "#7C3AED", "#EC4899", "#10B981", "#EF4444",
                    "#EAB308", "#38BDF8", "#A78BFA", "#FB7185"]
+
+    caption_final = []
+    for c in captions:
+        caption_final.append({"word": c["word"], "startMs": c["startMs"],
+                              "endMs": c["endMs"], "emphasize": bool(c.get("emphasize")),
+                              "seg": c.get("seg")})
+
     cuts = []
     for i, s in enumerate(job["shots"]):
         v = s["visual"]
@@ -259,8 +298,10 @@ def _render_job_internal(job_path: str, out_mp4: str,
             "in_seconds": round(ins[i], 2),
             "out_seconds": round(outs[s["id"]], 2),
             "motion": {"type": s.get("motion", "zoom_in")},
-            "transition_in": s.get("transition", "cut") if i > 0 else "fade",
-            "transition_out": "fade",
+            # V2.2: first frame is an instant hard cut (viral threshold: first
+            # cut before 1.1s); final cut ends hard into the loop frame.
+            "transition_in": s.get("transition", "cut") if i > 0 else "cut",
+            "transition_out": "fade" if i < len(job["shots"]) - 1 else "cut",
             "transitionOutDuration": 0.3,
             "representation": s.get("representation"),
             "label": s.get("on_screen_label"),
@@ -336,12 +377,36 @@ def _render_job_internal(job_path: str, out_mp4: str,
                 cut["text"] = s.get("narration") or v.get("text", "")
         else:
             raise ValueError(f"unknown visual type: {vtype}")
+        # V2.2: attach this cut's spoken words (kinetic typography layer).
+        # Shots anchor to a narration segment; take that segment's words.
+        seg_id = s.get("anchor", {}).get("narration")
+        cut["words"] = [c for c in caption_final if c.get("seg") == seg_id]
         cuts.append(cut)
 
-    caption_final = []
-    for c in captions:
-        caption_final.append({"word": c["word"], "startMs": c["startMs"],
-                              "endMs": c["endMs"], "emphasize": bool(c.get("emphasize"))})
+    # V2.2: loop ending — the final ~0.5s re-shows the hook frame (identical
+    # visual, instant, static, no gap after the last shot) so the Short loops
+    # seamlessly back to frame 1.
+    if cuts:
+        hook = cuts[0]
+        loop_start = round(max(outs.values()) if outs else video_end - 0.45, 2)
+        loop_cut = {
+            "id": "loop",
+            "type": "hero_title",
+            "in_seconds": loop_start,
+            "out_seconds": round(video_end, 2),
+            "motion": {"type": "static"},
+            "transition_in": "cut",
+            "transition_out": "cut",
+            "transitionOutDuration": 0.0,
+            "text": hook.get("text", ""),
+            "heroSubtitle": "",
+            "accentColor": hook.get("accentColor", "#22D3EE"),
+            "words": hook.get("words", []),
+            "instant": True,
+        }
+        cuts.append(loop_cut)
+    cuts[0]["instant"] = True
+    cuts[0]["motion"] = {"type": "static"}
 
     theme_config = style.get("theme_config")
 
@@ -353,7 +418,10 @@ def _render_job_internal(job_path: str, out_mp4: str,
             shutil.copyfile(src, dst)
 
     props = {
-        "theme": job["theme"],
+        # V2.2 hard rule: the winning kinetic-typography format is dark.
+        # Light themes (white bg + white words) wash out word-pop captions and
+        # break the seamless dark hook/loop frames — force the dark theme.
+        "theme": "flat-motion-graphics",
         "themeConfig": theme_config,
         "cuts": cuts,
         "overlays": [],

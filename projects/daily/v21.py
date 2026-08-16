@@ -169,7 +169,7 @@ ALLOWED_SOURCE_TYPES = {
     "built stat graphic over the same photo",
     "WIKIMEDIA_PHOTO", "WIKIMEDIA_VIDEO",
 }
-SFX_BUDGET = 3
+SFX_BUDGET = 4
 
 
 def _resolve(shots, starts, ends):

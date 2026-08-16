@@ -1,10 +1,11 @@
-import {
-  AbsoluteFill,
-  interpolate,
-  spring,
-  useCurrentFrame,
-  useVideoConfig,
-} from "remotion";
+import { AbsoluteFill } from "remotion";
+
+// Instant hook frame — the mute-test first frame.
+// The full hook text is visible and readable at frame 0, completely static:
+// no char-by-char typing, no entrance wait. First words accented. This is
+// exactly what the 5,000-Shorts study found: viral Shorts show big single
+// line high-contrast text before 0.6s, and the eye reads stillness as death
+// only AFTER 1.5s — an instantly-readable static hook frame is the win.
 
 type HeroTitleProps = {
   title: string;
@@ -14,9 +15,6 @@ type HeroTitleProps = {
 const EMPHASIS_WORD_LIMIT = 3;
 
 export const HeroTitle: React.FC<HeroTitleProps> = ({ title, subtitle }) => {
-  const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
-
   const words = title.split(/\s+/).filter(Boolean);
 
   return (
@@ -30,13 +28,12 @@ export const HeroTitle: React.FC<HeroTitleProps> = ({ title, subtitle }) => {
       }}
     >
       <div style={{ textAlign: "center", maxWidth: "86%" }}>
-        {/* Main title, word-safe (letters never break mid-word), first words accented */}
         <div
           style={{
             fontSize: 88,
-            fontWeight: 800,
+            fontWeight: 900,
             fontFamily: "Space Grotesk, Inter, system-ui, sans-serif",
-            lineHeight: 1.18,
+            lineHeight: 1.16,
             letterSpacing: "0.01em",
             display: "flex",
             justifyContent: "center",
@@ -52,49 +49,23 @@ export const HeroTitle: React.FC<HeroTitleProps> = ({ title, subtitle }) => {
                 key={wi}
                 style={{
                   color: accent ? "#22D3EE" : "#FFFFFF",
-                  display: "inline-flex",
+                  textShadow: accent
+                    ? "0 0 30px rgba(34,211,238,0.55)"
+                    : undefined,
                 }}
               >
-                {word.split("").map((char, ci) => {
-                  const delay = (wi * 6 + ci) * 1.1;
-                  const cs = spring({
-                    frame: frame - delay,
-                    fps,
-                    config: { damping: 12, stiffness: 150 },
-                  });
-                  return (
-                    <span
-                      key={ci}
-                      style={{
-                        display: "inline-block",
-                        opacity: cs,
-                        transform: `translateY(${interpolate(cs, [0, 1], [34, 0])}px)`,
-                        textShadow: accent
-                          ? `0 0 30px rgba(34,211,238,0.55)`
-                          : undefined,
-                      }}
-                    >
-                      {char}
-                    </span>
-                  );
-                })}
+                {word}
               </span>
             );
           })}
         </div>
 
-        {/* Subtitle */}
         {subtitle && (
           <div
             style={{
               marginTop: 22,
-              opacity: spring({
-                frame: frame - words.length * 6 * 1.1 - 5,
-                fps,
-                config: { damping: 20 },
-              }),
               fontSize: 30,
-              fontWeight: 400,
+              fontWeight: 600,
               color: "#A78BFA",
               fontFamily: "Space Grotesk, Inter, system-ui, sans-serif",
               letterSpacing: "0.1em",
@@ -104,25 +75,6 @@ export const HeroTitle: React.FC<HeroTitleProps> = ({ title, subtitle }) => {
             {subtitle}
           </div>
         )}
-
-        {/* Animated underline */}
-        <div
-          style={{
-            margin: "26px auto 0",
-            height: 3,
-            backgroundColor: "#22D3EE",
-            borderRadius: 2,
-            width: interpolate(
-              spring({
-                frame: frame - 15,
-                fps,
-                config: { damping: 15, stiffness: 60 },
-              }),
-              [0, 1],
-              [0, 420]
-            ),
-          }}
-        />
       </div>
     </AbsoluteFill>
   );

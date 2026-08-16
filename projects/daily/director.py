@@ -171,8 +171,16 @@ def _shot_anchors_for_beat(beat, seed: int, n_shots: int, shot_index: int, beat_
         return {"at": "start", "narration": sid}
     if shot_index == 0:
         return {"at": "start", "narration": sid}
+    # V2.2: every split lands MID-sentence (the viral cut move). Two-shot
+    # beats cut at 45% of the narration; three-shot at 33/66%. Never "end" —
+    # an end-anchor delays the cut to the full sentence length.
+    if n_shots == 2:
+        # hook beat cuts at 30% (first cut must land before 1.1s);
+        # body beats at 45%
+        return {"at": "fraction", "narration": sid,
+                "fraction": 0.30 if beat_index == 0 else 0.45}
     if shot_index == n_shots - 1:
-        return {"at": "end", "narration": sid}
+        return {"at": "fraction", "narration": sid, "fraction": 0.66}
     # interior cut points split the sentence
     frac = shot_index / n_shots
     return {"at": "fraction", "narration": sid, "fraction": frac}
@@ -187,8 +195,12 @@ def _build_shots(beats: list[dict], seed: int) -> list[dict]:
         purpose = _beat_purpose(bi, total, vtype)
 
         # how many shots does this beat deserve? (editing density, not filler)
+        # V2.2 pacing (winning-format spec): start TIGHT (1.4-1.8s shots),
+        # ease out to 2.6-3.2s. Early beats get more splits; later beats less.
         n_shots = 1
-        if vtype == "comparison":
+        if bi == 0:
+            n_shots = 2                                   # hook: promise + proof cut
+        elif vtype == "comparison":
             n_shots = 2                                   # left vs right reveal
         elif vtype in ("stat_card", "kpi_grid", "bar_chart"):
             n_shots = 2 if text_len > 8 else 1            # setup + number reveal
@@ -198,10 +210,12 @@ def _build_shots(beats: list[dict], seed: int) -> list[dict]:
             n_shots = 1                                   # internal animation
         elif vtype == "hero_title":
             n_shots = 2 if text_len > 9 else 1            # long hook = double hit
-        elif text_len > 20 and purpose in ("show", "setup"):
-            n_shots = 3                                   # fast montage rhythm
-        elif text_len > 12 and purpose in ("show", "setup"):
-            n_shots = 2                                   # punch zoom mid-sentence
+        # duration-aware, ANY purpose: speech runs ~0.35-0.5s/word, so long
+        # segments MUST split or the 3.5s shot ceiling leaves dead gaps
+        elif text_len > 16:
+            n_shots = 3                                   # montage rhythm
+        elif text_len > 8:
+            n_shots = 2                                   # mid-sentence cut
         elif bi == total - 1:
             n_shots = 1
 

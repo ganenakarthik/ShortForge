@@ -20,6 +20,8 @@ import { PieChart } from "./components/charts/PieChart";
 import { KPIGrid } from "./components/charts/KPIGrid";
 import { ProgressBar } from "./components/ProgressBar";
 import { CaptionOverlay, WordCaption } from "./components/CaptionOverlay";
+import { KineticText } from "./components/KineticText";
+import type { KineticWord } from "./components/KineticText";
 import { SectionTitle } from "./components/SectionTitle";
 import { StatReveal } from "./components/StatReveal";
 import { HeroTitle } from "./components/HeroTitle";
@@ -266,6 +268,12 @@ interface Cut {
   motion?: { type: string; amount?: number };
   emphasis?: string[];
   transitionOutDuration?: number;
+  // Kinetic typography: the spoken words of this cut, timed on the global
+  // timeline. When present (and the scene is a pure-text type), the words
+  // ARE the scene; for visual scenes they render on top.
+  words?: KineticWord[];
+  /** Render words as the instant static hook/loop frame (no word animation). */
+  instant?: boolean;
   // V2.1 visual-truth: representation class + on-screen label for
   // illustrations/simulations so viewers never mistake graphics for footage
   representation?: string;
@@ -628,6 +636,12 @@ const SceneRenderer: React.FC<{ cut: Cut; theme: ThemeConfig }> = ({ cut, theme 
 
   // Explicit component types — use theme-derived defaults for colors
   if (cut.type === "text_card" && cut.text) {
+    // Kinetic mode: the spoken words ARE the scene (rendered by KineticText
+    // over the animated background). No card, no box, no full sentence.
+    if (cut.words && cut.words.length > 0) {
+      // Hook/loop frames get a solid backdrop so the loop is pixel-identical.
+      return <AbsoluteFill style={{ background: cut.instant ? "#0F172A" : "transparent" }} />;
+    }
     return maybeWrapWithBg(
       <TextCard text={cut.text} fontSize={cut.fontSize} color={textColor} backgroundColor={bgColor}
                 accentColor={accent} emphasis={cut.emphasis} />
@@ -650,6 +664,9 @@ const SceneRenderer: React.FC<{ cut: Cut; theme: ThemeConfig }> = ({ cut, theme 
     );
   }
   if (cut.type === "callout" && cut.text) {
+    if (cut.words && cut.words.length > 0) {
+      return <AbsoluteFill style={{ background: cut.instant ? "#0F172A" : "transparent" }} />;
+    }
     return maybeWrapWithBg(
       <CalloutBox
         text={cut.text} type={cut.callout_type} title={cut.title}
@@ -668,6 +685,9 @@ const SceneRenderer: React.FC<{ cut: Cut; theme: ThemeConfig }> = ({ cut, theme 
     );
   }
   if (cut.type === "hero_title" && cut.text) {
+    if (cut.words && cut.words.length > 0) {
+      return <AbsoluteFill style={{ background: cut.instant ? "#0F172A" : "transparent" }} />;
+    }
     return maybeWrapWithBg(
       <HeroTitle title={cut.text} subtitle={cut.heroSubtitle || cut.subtitle} />
     );
@@ -1013,6 +1033,18 @@ export const Explainer: React.FC<ExplainerProps> = (props) => {
               <ShotMotion cut={cut}>
                 <SceneRenderer cut={cut} theme={theme} />
               </ShotMotion>
+              {/* Kinetic typography: the words ARE the video — big, centered,
+                  one word popping per spoken word, keyword anchors in accent.
+                  The hook (first cut) and the loop frame render instant. */}
+              {cut.words && cut.words.length > 0 && (
+                <KineticText
+                  words={cut.words}
+                  instant={cut.instant}
+                  startMs={cut.in_seconds * 1000}
+                  accentColor={theme.accentColor}
+                  paddingBottom={captionPaddingBottom}
+                />
+              )}
               {cut.label && <CornerLabel text={cut.label} />}
             </Sequence>
           );
@@ -1033,8 +1065,10 @@ export const Explainer: React.FC<ExplainerProps> = (props) => {
         })}
       </AbsoluteFill>
 
-      {/* Layer 3: Captions (word-by-word highlight + emphasis pop) */}
-      {captions && captions.length > 0 && (
+      {/* Layer 3: Captions (word-by-word highlight + emphasis pop) — legacy
+              bottom-bar mode, only used with the avatar host (daily kinetic
+              text renders per-cut above). */}
+      {avatarEnabled && captions && captions.length > 0 && (
         <CaptionOverlay
           words={captions}
           wordsPerPage={4}
