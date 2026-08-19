@@ -1042,6 +1042,7 @@ export const Explainer: React.FC<ExplainerProps> = (props) => {
                   instant={cut.instant}
                   startMs={cut.in_seconds * 1000}
                   accentColor={theme.accentColor}
+                  position={cut.instant ? "center" : "bottom"}
                   paddingBottom={captionPaddingBottom}
                 />
               )}

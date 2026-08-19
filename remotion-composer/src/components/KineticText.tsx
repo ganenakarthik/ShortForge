@@ -36,6 +36,11 @@ type KineticTextProps = {
   maxVisibleWords?: number;
   /** Captions lead the spoken word by this many ms. */
   leadMs?: number;
+  /**
+   * "center" (hook/loop): big text over the footage.
+   * "bottom" (body): read-along captions at the bottom of the clip.
+   */
+  position?: "center" | "bottom";
 };
 
 const DEFAULT_ACCENT = "#FACC15";
@@ -44,15 +49,19 @@ export const KineticText: React.FC<KineticTextProps> = ({
   words,
   instant = false,
   startMs = 0,
-  fontSize = 82,
+  fontSize,
   accentColor = DEFAULT_ACCENT,
   dimOpacity = 0.42,
   paddingBottom = 280,
   maxVisibleWords = 12,
   leadMs = 150,
+  position = "center",
 }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
+  const isBottom = position === "bottom";
+  const resolvedFontSize = fontSize ?? (isBottom ? 46 : 74);
+  const resolvedPaddingBottom = isBottom ? 110 : paddingBottom;
 
   const nowMs = startMs + (frame / fps) * 1000;
 
@@ -60,14 +69,36 @@ export const KineticText: React.FC<KineticTextProps> = ({
     return (
       <AbsoluteFill
         style={{
-          justifyContent: "center",
+          justifyContent: isBottom ? "flex-end" : "center",
           alignItems: "center",
-          paddingBottom,
+          paddingBottom: resolvedPaddingBottom,
         }}
       >
+        {isBottom ? (
+          <div
+            style={{
+              position: "absolute",
+              left: 0,
+              right: 0,
+              top: "50%",
+              bottom: 0,
+              background:
+                "linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.82) 100%)",
+            }}
+          />
+        ) : (
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              background:
+                "radial-gradient(ellipse at 50% 48%, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0) 72%)",
+            }}
+          />
+        )}
         <div
           style={{
-            maxWidth: "88%",
+            maxWidth: isBottom ? "94%" : "88%",
             textAlign: "center",
             lineHeight: 1.18,
           }}
@@ -80,7 +111,7 @@ export const KineticText: React.FC<KineticTextProps> = ({
                 display: "inline-block",
                 fontFamily: "Space Grotesk, Inter, system-ui, sans-serif",
                 fontWeight: 900,
-                fontSize,
+                fontSize: resolvedFontSize,
                 marginRight: "0.24em",
                 letterSpacing: "0.01em",
                 textShadow: w.emphasize
@@ -127,14 +158,36 @@ export const KineticText: React.FC<KineticTextProps> = ({
   return (
     <AbsoluteFill
       style={{
-        justifyContent: "center",
+        justifyContent: isBottom ? "flex-end" : "center",
         alignItems: "center",
-        paddingBottom,
+        paddingBottom: resolvedPaddingBottom,
       }}
     >
+      {isBottom ? (
+        <div
+          style={{
+            position: "absolute",
+            left: 0,
+            right: 0,
+            top: "50%",
+            bottom: 0,
+            background:
+              "linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.82) 100%)",
+          }}
+        />
+      ) : (
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            background:
+              "radial-gradient(ellipse at 50% 48%, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0) 72%)",
+          }}
+        />
+      )}
       <div
         style={{
-          maxWidth: "88%",
+          maxWidth: isBottom ? "94%" : "88%",
           textAlign: "center",
           lineHeight: 1.18,
         }}
@@ -174,13 +227,13 @@ export const KineticText: React.FC<KineticTextProps> = ({
                   : "#FFFFFF",
                 fontFamily: "Space Grotesk, Inter, system-ui, sans-serif",
                 fontWeight: 900,
-                fontSize,
+                fontSize: resolvedFontSize,
                 marginRight: "0.24em",
                 letterSpacing: "0.01em",
                 textShadow: isActive && emph
                   ? `0 0 32px ${accentColor}77, 0 4px 10px rgba(0,0,0,0.6)`
                   : "0 4px 10px rgba(0,0,0,0.6)",
-                WebkitTextStroke: "8px rgba(0,0,0,0.85)",
+                WebkitTextStroke: "7px rgba(0,0,0,0.85)",
                 paintOrder: "stroke fill",
                 willChange: "transform, opacity",
               }}

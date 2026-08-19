@@ -186,7 +186,7 @@ def _shot_anchors_for_beat(beat, seed: int, n_shots: int, shot_index: int, beat_
     return {"at": "fraction", "narration": sid, "fraction": frac}
 
 
-def _build_shots(beats: list[dict], seed: int) -> list[dict]:
+def _build_shots(beats: list[dict], seed: int, topic: str) -> list[dict]:
     shots = []
     total = len(beats)
     for bi, beat in enumerate(beats):
@@ -265,7 +265,14 @@ def _build_shots(beats: list[dict], seed: int) -> list[dict]:
                 "id": shot_id,
                 "purpose": purpose,
                 "beat": bi,
-                "visual": copy.deepcopy(beat["visual"]),
+                # V2.3: the video IS the footage — every shot renders a real
+                # clip (Wikimedia), captions overlay at the bottom. The chart
+                # types are retired for daily; pacing rules above still use
+                # the beat's original visual type for density.
+                "visual": {
+                    "type": "video",
+                    "queries": _footage_queries(beat, topic),
+                },
                 "anchor": anchor,
                 "duration_s": None,
                 "motion": motion,
@@ -293,6 +300,83 @@ def _build_shots(beats: list[dict], seed: int) -> list[dict]:
     for s in shots:
         s["sfx"] = [fx for fx in s.get("sfx", []) if fx in kept]
     return shots
+
+
+# ---------------------------------------------------------------------------
+# Footage query builder (V2.3): search terms from the beat narration
+# ---------------------------------------------------------------------------
+
+_FOOTAGE_STOP = {
+    "the", "a", "an", "and", "or", "but", "of", "in", "on", "at", "to", "for",
+    "with", "is", "are", "was", "were", "be", "been", "it", "its", "this",
+    "that", "than", "as", "by", "from", "about", "around", "into", "over",
+    "under", "how", "what", "why", "when", "which", "who", "so", "you", "your",
+    "yourself", "they", "their", "them", "we", "our", "us", "i", "me", "my",
+    "he", "she", "him", "her", "his", "not", "no", "yes", "just", "also",
+    "very", "really", "actually", "here", "there", "every", "one", "two",
+    "three", "first", "would", "could", "should", "have", "has", "had", "do",
+    "does", "did", "can", "will", "may", "might", "if", "because", "while",
+    "when", "where", "but", "more", "most", "much", "many", "some", "such",
+    "only", "even", "still", "yet", "out", "up", "down", "off", "back",
+    "called", "known", "mean", "means", "say", "says", "said", "think",
+    "knows", "things", "part", "way", "parts", "stuff",
+}
+
+# Verbs / filler that are long enough to look like nouns but search poorly
+# ("follow hotter", "roughly enough") — drop them so the query stays
+# topic-anchored.
+_FOOTAGE_WEAK_VERBS = {
+    "follow", "roughly", "enough", "toward", "towards", "separating",
+    "building", "comes", "make", "makes", "gives", "give", "gets", "get",
+    "go", "goes", "turn", "turns", "stay", "stays", "last", "lasts", "hold",
+    "holds", "sit", "sits", "run", "runs", "move", "moves", "travel",
+    "travels", "happen", "happens", "seem", "seems", "appear", "appears",
+    "become", "becomes", "mean", "means", "means", "part", "way", "stuff",
+    "along", "alongside", "between", "among", "through", "throughout",
+    "within", "without", "again", "still", "already", "almost", "nearly",
+    "about", "around", "perhaps", "maybe", "often", "usually", "typically",
+    "generally", "basically", "actually", "really", "quite", "rather",
+    "simply", "just", "only", "even", "still", "also", "too", "well",
+}
+
+
+def _footage_queries(beat: dict, topic: str) -> list[str]:
+    """Candidate search queries, most general first. Commons full-text
+    search is picky about token count, so we try the topic alone, then
+    topic + first content token, then topic + two — first hit wins."""
+    toks = []
+    for t in re.split(r"[\s,.;:!?'\"()\u2019]+", beat["narration"].lower()):
+        if t and t not in _FOOTAGE_STOP and t not in _FOOTAGE_WEAK_VERBS \
+                and len(t) > 2 and not t.isdigit():
+            toks.append(t)
+    out = [topic] if topic else []
+    for t in toks[:2]:
+        out.append(t)
+    return out
+
+
+def _topic_slug(playbook: dict) -> str:
+    src = (playbook.get("topic") or playbook.get("name")
+           or playbook.get("id") or "")
+    words = re.split(r"[\s\-_:/,.!?'\u2019]+", src)
+    # Capitalized words are the real subject ("Lightning is 5x hotter...";
+    # "US Space Force gives Rocket Lab...") — use those first.
+    capped = [w.lower() for w in words
+              if w and w[0].isupper() and len(w) > 2
+              and w.lower() not in _FOOTAGE_STOP]
+    if not capped:
+        toks = [w.lower() for w in words
+                if w and len(w) > 2 and w.lower() not in _FOOTAGE_STOP]
+        capped = sorted(set(toks), key=len, reverse=True)[:2]
+    seen = set()
+    out = []
+    for t in capped:
+        if t not in seen:
+            seen.add(t)
+            out.append(t)
+        if len(out) >= 3:
+            break
+    return " ".join(out) or "science"
 
 
 # ---------------------------------------------------------------------------
@@ -369,7 +453,7 @@ def direct(playbook: dict, date_str: str, index: int, seed: int) -> dict:
             "emphasis": _emphasis_words(b, seed + i),
         })
 
-    shots = _build_shots(beats, seed)
+    shots = _build_shots(beats, seed, _topic_slug(playbook))
 
     style = playbook.get("style", {})
     music_style = style.get("music", DEFAULT_STYLE["music"])

@@ -20,6 +20,7 @@ import shutil
 import subprocess
 import sys
 import wave
+import zlib
 
 import numpy as np
 
@@ -306,77 +307,92 @@ def _render_job_internal(job_path: str, out_mp4: str,
             "representation": s.get("representation"),
             "label": s.get("on_screen_label"),
         }
-        if vtype in ("text_card", "hero_title"):
-            cut["text"] = v["text"]
-            if v.get("subtitle"):
-                cut["heroSubtitle"] = v["subtitle"]
-            if vtype == "hero_title":
-                cut["heroSubtitle"] = cut.get("heroSubtitle", "")
-            cut["emphasis"] = [w for w in (v.get("emphasis") or [])]
-            cut["accentColor"] = accent
-        elif vtype == "stat_card":
-            cut["stat"] = v["stat"]
-            cut["subtitle"] = v.get("subtitle", "")
-            cut["accentColor"] = accent
-        elif vtype == "bar_chart":
-            cut["title"] = v.get("title", "")
-            cut["chartData"] = v["data"]
-            cut["chartColors"] = [accent]
-            cut["showValues"] = True
-            cut["showGrid"] = True
-        elif vtype == "pie_chart":
-            cut["title"] = v.get("title", "")
-            cut["chartData"] = v["data"]
-            cut["chartColors"] = [accent, "#334155"]
-        elif vtype == "kpi_grid":
-            cut["title"] = v.get("title", "")
-            cut["chartData"] = v["data"]
-            cut["columns"] = v.get("columns", 3)
-        elif vtype == "callout":
-            cut["callout_type"] = v.get("callout_type") or "info"
-            cut["title"] = v.get("title", "")
-            cut["text"] = v.get("body", v["text"])
-            cut["accentColor"] = accent
-        elif vtype == "progress_bar":
-            cut["title"] = v.get("title", "")
-            cut["progress"] = v.get("progress", 0.5)
-            cut["progressLabel"] = v.get("label", "")
-            cut["progressColor"] = accent
-        elif vtype == "comparison":
-            cut["title"] = v.get("title", "")
-            cut["leftLabel"] = v.get("left", "")
-            cut["leftValue"] = v.get("lvalue", "")
-            cut["rightLabel"] = v.get("right", "")
-            cut["rightValue"] = v.get("rvalue", "")
-            cut["accentColor"] = accent
-        elif vtype == "timeline":
-            cut["title"] = v.get("title", "")
-            cut["milestones"] = v.get("milestones", [])
-            cut["accentColor"] = accent
-        elif vtype in ("image", "video"):
-            # Topic-relevant real footage: fetch + stage, fall back to text
-            kind = "video" if vtype == "video" else "image"
-            query = v.get("query") or v.get("search") or s.get("narration", "")
-            try:
-                local, meta = sources.resolve(query, kind)
-                fname = os.path.basename(local)
-                dst = os.path.join(pub_dir, fname)
-                if not os.path.exists(dst) or os.path.getsize(dst) != os.path.getsize(local):
-                    os.makedirs(pub_dir, exist_ok=True)
-                    shutil.copyfile(local, dst)
-                cut["source"] = f"{job_dir}/{fname}"
-                cut["animation"] = v.get("animation") or ("zoom-in" if kind == "image" else "static")
-                if vtype == "video":
-                    cut["source_in_seconds"] = v.get("source_in_seconds", 0)
-                s["source_label"] = f"{meta['license']} — {meta['title'][:70]}"
-                s["source_url"] = meta["url"]
-                s["source_type"] = "WIKIMEDIA_PHOTO" if kind == "image" else "WIKIMEDIA_VIDEO"
-            except Exception as exc:
-                print(f"[warn] asset fetch failed for {query!r}: {exc}; fallback to text card")
-                cut["type"] = "text_card"
-                cut["text"] = s.get("narration") or v.get("text", "")
-        else:
-            raise ValueError(f"unknown visual type: {vtype}")
+        # V2.3: the video IS the footage. Every shot tries to fetch a real
+        # clip (video first, photo fallback) from Wikimedia; on failure the
+        # shot falls back to its original text/chart visual below.
+        footage = None
+        queries = v.get("queries") or [v.get("query") or v.get("search")
+                                       or s.get("narration", "")]
+        for q in queries:
+            for kind in ("video", "image"):
+                try:
+                    local, meta = sources.resolve(q, kind)
+                    footage = (kind, local, meta)
+                    break
+                except Exception as exc:
+                    print(f"[warn] fetch failed for {q!r} ({kind}): {exc}")
+            if footage is not None:
+                break
+
+        if footage is not None:
+            kind, local, meta = footage
+            fname = os.path.basename(local)
+            dst = os.path.join(pub_dir, fname)
+            if not os.path.exists(dst) or os.path.getsize(dst) != os.path.getsize(local):
+                os.makedirs(pub_dir, exist_ok=True)
+                shutil.copyfile(local, dst)
+            cut["type"] = "video"
+            cut["source"] = f"{job_dir}/{fname}"
+            cut["animation"] = "zoom-in" if kind == "image" else "static"
+            # deterministic seek into the clip for variety (hook stays at 0 so
+            # the loop frame is pixel-identical to frame 1)
+            cut["source_in_seconds"] = 0 if i == 0 else (zlib.crc32(s["id"].encode()) % 22) + 6
+            s["source_label"] = f"{meta['license']} — {meta['title'][:70]}"
+            s["source_url"] = meta["url"]
+            s["source_type"] = "WIKIMEDIA_PHOTO" if kind == "image" else "WIKIMEDIA_VIDEO"
+            cut["sourceType"] = s["source_type"]
+
+        # Fallback visual (no footage): keep the original text/chart dispatch.
+        if footage is None:
+            if vtype in ("text_card", "hero_title"):
+                cut["text"] = v["text"]
+                if v.get("subtitle"):
+                    cut["heroSubtitle"] = v["subtitle"]
+                if vtype == "hero_title":
+                    cut["heroSubtitle"] = cut.get("heroSubtitle", "")
+                cut["emphasis"] = [w for w in (v.get("emphasis") or [])]
+                cut["accentColor"] = accent
+            elif vtype == "stat_card":
+                cut["stat"] = v["stat"]
+                cut["subtitle"] = v.get("subtitle", "")
+                cut["accentColor"] = accent
+            elif vtype == "bar_chart":
+                cut["title"] = v.get("title", "")
+                cut["chartData"] = v["data"]
+                cut["chartColors"] = [accent]
+                cut["showValues"] = True
+                cut["showGrid"] = True
+            elif vtype == "pie_chart":
+                cut["title"] = v.get("title", "")
+                cut["chartData"] = v["data"]
+                cut["chartColors"] = [accent, "#334155"]
+            elif vtype == "kpi_grid":
+                cut["title"] = v.get("title", "")
+                cut["chartData"] = v["data"]
+                cut["columns"] = v.get("columns", 3)
+            elif vtype == "callout":
+                cut["callout_type"] = v.get("callout_type") or "info"
+                cut["title"] = v.get("title", "")
+                cut["text"] = v.get("body", v["text"])
+                cut["accentColor"] = accent
+            elif vtype == "progress_bar":
+                cut["title"] = v.get("title", "")
+                cut["progress"] = v.get("progress", 0.5)
+                cut["progressLabel"] = v.get("label", "")
+                cut["progressColor"] = accent
+            elif vtype == "comparison":
+                cut["title"] = v.get("title", "")
+                cut["leftLabel"] = v.get("left", "")
+                cut["leftValue"] = v.get("lvalue", "")
+                cut["rightLabel"] = v.get("right", "")
+                cut["rightValue"] = v.get("rvalue", "")
+                cut["accentColor"] = accent
+            elif vtype == "timeline":
+                cut["title"] = v.get("title", "")
+                cut["milestones"] = v.get("milestones", [])
+                cut["accentColor"] = accent
+            else:
+                raise ValueError(f"unknown visual type: {vtype}")
         # V2.2: attach this cut's spoken words (kinetic typography layer).
         # Shots anchor to a narration segment; take that segment's words.
         seg_id = s.get("anchor", {}).get("narration")
@@ -391,7 +407,7 @@ def _render_job_internal(job_path: str, out_mp4: str,
         loop_start = round(max(outs.values()) if outs else video_end - 0.45, 2)
         loop_cut = {
             "id": "loop",
-            "type": "hero_title",
+            "type": "video",
             "in_seconds": loop_start,
             "out_seconds": round(video_end, 2),
             "motion": {"type": "static"},
@@ -403,6 +419,10 @@ def _render_job_internal(job_path: str, out_mp4: str,
             "accentColor": hook.get("accentColor", "#22D3EE"),
             "words": hook.get("words", []),
             "instant": True,
+            # same clip, same seek point as the hook -> pixel-identical loop
+            "source": hook.get("source"),
+            "source_in_seconds": hook.get("source_in_seconds", 0),
+            "sourceType": hook.get("sourceType", ""),
         }
         cuts.append(loop_cut)
     cuts[0]["instant"] = True

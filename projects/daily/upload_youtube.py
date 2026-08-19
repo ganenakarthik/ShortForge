@@ -201,7 +201,7 @@ body={"id": entry["video_id"],
     if uploaded:
         with open(QUEUE, "w", encoding="utf-8") as f:
             json.dump(queue, f, indent=2)
-        print(f"done, {uploaded} uploaded. Privacy: {os.environ.get('YT_PRIVACY', 'private')}")
+        print(f"done, {uploaded} uploaded. Privacy: {os.environ.get('YT_PRIVACY', 'public')}")
     return 0
 
 

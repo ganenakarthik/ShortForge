@@ -28,9 +28,25 @@ REJECT_TITLE_IF_CONTAINS = ("toy", "plush", "stuffed", "cartoon", "mascot", "log
                             "screenshot", "flag of")
 UA = {"User-Agent": "OpenMontage-daily/0.1 (local Shorts pipeline)"}
 
+# Polite rate limit: Commons asks for <=1 req/s. The daily run resolves many
+# queries back-to-back, which used to trip HTTP 429. Enforced across threads
+# and retries.
+_last_call = 0.0
+_MIN_INTERVAL = 1.2
+
+
+def _throttle() -> None:
+    global _last_call
+    now = time.time()
+    wait = _MIN_INTERVAL - (now - _last_call)
+    if wait > 0:
+        time.sleep(wait)
+    _last_call = time.time()
+
 
 def _get(url: str, retries: int = 3):
     for attempt in range(retries):
+        _throttle()
         try:
             req = urllib.request.Request(url, headers=UA)
             with urllib.request.urlopen(req, timeout=30) as r:
@@ -108,19 +124,28 @@ def resolve(query: str, kind: str = "image") -> tuple[str, dict]:
     """Deterministic per query: first acceptable candidate, cached.
 
     Returns (local_path, meta). Videos are transcoded to h264 mp4 so Remotion
-    can play them.
+    can play them. Failed queries are negatively cached so a 12-shot video
+    does not hammer the API re-searching the same dead query.
     """
     os.makedirs(ASSETS, exist_ok=True)
     key = hashlib.sha1(f"{kind}:{query}".encode()).hexdigest()[:12]
     ext = ".jpg" if kind == "image" else ".mp4"
     dest = os.path.join(ASSETS, f"src_{key}{ext}")
     meta_path = dest + ".json"
+    fail_path = dest + ".fail"
+    if os.path.exists(fail_path):
+        age_s = time.time() - os.path.getmtime(fail_path)
+        if age_s < 12 * 3600:
+            raise LookupError(f"previously failed query (cached): {query!r}")
+        os.remove(fail_path)
     if os.path.exists(dest) and os.path.exists(meta_path):
         with open(meta_path, encoding="utf-8") as f:
             return dest, json.load(f)
 
     cands = search(query, kind)
     if not cands:
+        with open(fail_path, "w", encoding="utf-8") as f:
+            f.write("no candidates\n")
         raise LookupError(f"no acceptable Commons asset for query: {query!r}")
 
     raw = os.path.join(ASSETS, f"src_{key}_raw")
